@@ -1,0 +1,28 @@
+{
+	"Stateless Widget": {
+		"scope": "dart",
+		"prefix": "dartBStateless",
+		"body": [
+			"import 'package:flutter/material.dart';",
+			"class Name extends StatelessWidget {",
+			"  final Color color;",
+  			"  const Name({super.key, required this.color});",
+			"  static const colorD = Color.fromARGB(255, 53, 160, 53);",
+			"  static const styleD = TextStyle(fontSize: 14, color: colorD);",
+			"  @override",
+			"  Widget build(BuildContext context) {",
+			"    return MaterialApp(",
+			"      debugShowCheckedModeBanner: false,",
+			"      title: 'Flutter Demo',",
+			"      theme: ThemeData(",
+			"        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),",
+			"        useMaterial3: true,",
+			"      ),",
+			"      home: const Text('Flutter Demo Home Page'),",
+			"    );",
+			"  }",
+			"}",
+		],
+		"description": "Creates a new Stateless Widget"
+	}
+}
