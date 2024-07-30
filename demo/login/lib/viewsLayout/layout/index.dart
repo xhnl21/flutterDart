@@ -1,11 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:login/componets/menu/index.dart';
-import 'package:login/views/home/index.dart';
-import 'package:login/views/login/login.dart';
-import 'package:login/views/login/newPageA.dart';
-import 'package:login/views/login/newPageB.dart';
-import 'package:login/views/pluss/index.dart';
-import 'package:login/views/user/index.dart';
+import 'package:login/viewsLayout/index.dart';
 // dynamic [appBar.title, body.children, bottomNavigationBar]
 
 class Layout extends StatefulWidget {
@@ -14,7 +8,7 @@ class Layout extends StatefulWidget {
     {'label': 'Home', 'icon': Icons.home, 'iconActive': Icons.home_filled, 'route':'/Home'},
     {'label': 'Users', 'icon': Icons.person, 'iconActive': Icons.person_off, 'route':'/User'},
     {'label': 'Pluss', 'icon': Icons.plus_one, 'iconActive': Icons.plus_one_sharp, 'route':'/Pluss'},  
-    {'label': 'Pluss', 'icon': Icons.plus_one, 'iconActive': Icons.plus_one_sharp, 'route':'/Pluss'},    
+    // {'label': 'Pluss', 'icon': Icons.plus_one, 'iconActive': Icons.plus_one_sharp, 'route':'/Pluss'},    
   ];
   static const List<Widget> bodyWidget = [
     Login(),

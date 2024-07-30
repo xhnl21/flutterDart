@@ -8,6 +8,13 @@ class MenuWidget extends StatelessWidget {
     super.key,
   });
   static double footerHeight = 40;
+  static const List<Map<String, dynamic>> listTile = [
+    {'title': 'Home', 'icon': Icons.home, 'route':'/Home'},
+    {'title': 'About', 'icon': Icons.account_box, 'route':'/NewPageA'},
+    {'title': 'Products', 'icon': Icons.grid_3x3_outlined, 'route':'/NewPageB'},
+    {'title': 'Layout', 'icon': Icons.contact_mail, 'route':'/Layout'},
+    {'title': 'Full', 'icon': Icons.abc_rounded, 'route':'/Full'},
+  ];  
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -50,7 +57,7 @@ class MenuWidget extends StatelessWidget {
                         ],
                     ),
                 ),
-                const OptionList(),
+                const OptionList(listTile),
                 const Expanded(child: SizedBox.shrink()),
                 MyFooter(height: footerHeight), 
             ],

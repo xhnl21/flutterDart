@@ -8,4 +8,6 @@ export 'package:login/views/login/newPageB.dart';
 export 'package:login/views/home/index.dart';
 export 'package:login/views/user/index.dart';
 export 'package:login/views/pluss/index.dart';
-export 'package:login/views/layout/index.dart';
+export 'package:login/views/full/index.dart';
+// export 'package:login/views/layout/index.dart';
+export 'package:login/viewsLayout/layout/index.dart';

@@ -12,10 +12,10 @@ class RouteLogin {
       'path': '/LoginB',
       'builder': (context, state) => const LoginB(),
     },  
-    {
-      'path': '/Layout',
-      'builder': (context, state) => const Layout(),
-    },        
+    // {
+    //   'path': '/Layout',
+    //   'builder': (context, state) => const Layout(),
+    // },        
     {
       'path': '/HomeScreen',
       'builder': (context, state) => const HomeScreen(),
