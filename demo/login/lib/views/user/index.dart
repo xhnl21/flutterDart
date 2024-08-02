@@ -11,20 +11,37 @@ class User extends StatelessWidget {
   ];
   @override
   Widget build(BuildContext context) {   
-    return const Scaffold(
+    return Scaffold(
       // drawer: const MenuWidget(),
       // appBar: AppBar(
       //   title: const Text('User'),
       // ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text('User')
+      body: SafeArea(
+        child:
+        ListView(
+          padding: const EdgeInsets.all(8),
+          children: const <Widget>[
+              Card(child: _SampleCard(cardName: 'Elevated Card')),
+              Card.filled(child: _SampleCard(cardName: 'Filled Card')),
+              Card.outlined(child: _SampleCard(cardName: 'Outlined Card')),
           ],
-        ),
+        )
       ),
+
       // bottomNavigationBar: const BtnNavBar(bottomNavigationBar),
+    );
+  }
+}
+class _SampleCard extends StatelessWidget {
+  const _SampleCard({required this.cardName});
+  final String cardName;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 300,
+      height: 100,
+      child: Center(child: Text(cardName)),
     );
   }
 }

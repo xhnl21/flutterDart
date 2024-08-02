@@ -14,7 +14,7 @@ class BtnNavBar extends StatelessWidget {
           icon: Icon(item['icon'] as IconData),
           activeIcon: Icon(item['iconActive'] as IconData), 
           label: item['label'] as String,
-          // backgroundColor: Colors.black      
+          //backgroundColor: Colors.blue      
         ),
     ];
     return BottomNavigationBar(

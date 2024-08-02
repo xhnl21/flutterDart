@@ -30,7 +30,7 @@ class Layout extends StatefulWidget {
     {'title': 'Products', 'icon': Icons.grid_3x3_outlined, 'route':'/NewPageB'},
     {'title': 'Layout', 'icon': Icons.contact_mail, 'route':'/Layout'},
     {'title': 'Full', 'icon': Icons.abc_rounded, 'route':'/Full'},
-  ];   
+  ];  
   @override
   State<Layout> createState() => _LayoutState();
 }

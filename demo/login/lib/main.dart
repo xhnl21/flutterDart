@@ -23,7 +23,11 @@ class MyApp extends StatelessWidget {
         ),
         appBarTheme: const AppBarTheme(
           backgroundColor: Colors.blue, // appBar color
-        ),        
+        ),
+        bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+          backgroundColor: Colors.blue, 
+          type: BottomNavigationBarType.fixed
+        )
       ),
       routerConfig: MainGoRouter().funtGoRouter()      
     );

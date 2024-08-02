@@ -14,7 +14,7 @@ class Layout extends StatefulWidget {
     {'label': 'Home', 'icon': Icons.home, 'iconActive': Icons.home_filled, 'route':'/Home'},
     {'label': 'Users', 'icon': Icons.person, 'iconActive': Icons.person_off, 'route':'/User'},
     {'label': 'Pluss', 'icon': Icons.plus_one, 'iconActive': Icons.plus_one_sharp, 'route':'/Pluss'},  
-    {'label': 'Pluss', 'icon': Icons.plus_one, 'iconActive': Icons.plus_one_sharp, 'route':'/Pluss'},    
+    // {'label': 'Pluss', 'icon': Icons.plus_one, 'iconActive': Icons.plus_one_sharp, 'route':'/Pluss'},
   ];
   static const List<Widget> bodyWidget = [
     Login(),
@@ -24,6 +24,13 @@ class Layout extends StatefulWidget {
     Pluss(),
     User()
   ];
+  static const List<Map<String, dynamic>> listTile = [
+    {'title': 'Home', 'icon': Icons.home, 'route':'/Home'},
+    {'title': 'About', 'icon': Icons.account_box, 'route':'/NewPageA'},
+    {'title': 'Products', 'icon': Icons.grid_3x3_outlined, 'route':'/NewPageB'},
+    {'title': 'Layout', 'icon': Icons.contact_mail, 'route':'/Layout'},
+    {'title': 'Full', 'icon': Icons.abc_rounded, 'route':'/Full'},
+  ];   
   @override
   State<Layout> createState() => _LayoutState();
 }
@@ -46,7 +53,7 @@ class _LayoutState extends State<Layout> {
         ),
     ];
     return Scaffold(
-      drawer: const MenuWidget(),
+      drawer: const MenuWidget(listTile:Layout.listTile),
       appBar: AppBar(
         title: Text('ZZ$title'),
       ),
@@ -65,7 +72,6 @@ class _LayoutState extends State<Layout> {
               curve: Curves.easeOut);
           setState(() {});
         },        
-        backgroundColor: const Color.fromARGB(0xFF, 0x42, 0xA5, 0xF5),
         selectedItemColor: Colors.black,
         unselectedItemColor: Colors.black.withOpacity(0.5),
         items: bottomNavBarItems
