@@ -6,7 +6,7 @@ class RouteUser {
     return [
       {
         'path': '/User',
-        'builder': (context, state) => const User(),
+        'builder': (context, state) => const User([]),
       },
     ];
   }

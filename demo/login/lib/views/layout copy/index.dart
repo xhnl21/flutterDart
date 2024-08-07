@@ -22,7 +22,7 @@ class Layout extends StatefulWidget {
     NewPageA(),
     NewPageB(),
     Pluss(),
-    User()
+    User([])
   ];
   static const List<Map<String, dynamic>> listTile = [
     {'title': 'Home', 'icon': Icons.home, 'route':'/Home'},

@@ -1,25 +1,20 @@
 // ignore_for_file: avoid_print
 
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 // double _volume = 0.0;
-class FullView extends StatefulWidget {
-  const FullView({super.key});
-
+class FullDetailsView extends StatefulWidget {
+  final List<Map<String, dynamic>> result;
+  const FullDetailsView(this.result, {super.key});
   @override
-  StateFullView createState() => StateFullView();
+  StateFullDetailsView createState() => StateFullDetailsView();
 }
 
-class StateFullView extends State<FullView> {
-  final List<Map<String, dynamic>> _data = [
-    {'id':1, 'order':1, 'name': 'John Doe', 'age': 30, 'email': 'john.doe@example.com'},
-    {'id':2, 'order':2, 'name': 'Jane Smith', 'age': 25, 'email': 'jane.smith@example.com'},
-    {'id':3, 'order':3, 'name': 'Bob Johnson', 'age': 40, 'email': 'bob.johnson@example.com'},
-    {'id':4, 'order':4, 'name': 'Sarah Lee', 'age': 35, 'email': 'sarah.lee@example.com'},
-  ];
+class StateFullDetailsView extends State<FullDetailsView> {
+  
+  List<Map<String, dynamic>> _data = [];
   
   List<Map<String, dynamic>> filter = [];
-
+ 
   void removeData(Map<String, dynamic> row) {
     setState(() {
       _data.remove(row);
@@ -97,7 +92,7 @@ class StateFullView extends State<FullView> {
       }
     });
   }
-
+  bool actionFilter = true;
   void filterData(String index) {
     setState(() {
       if (index.length > 2) {
@@ -105,10 +100,11 @@ class StateFullView extends State<FullView> {
           final name = item['name'].toString().toLowerCase();
           final email = item['email'].toString().toLowerCase();
           return name.contains(index.toLowerCase()) || email.contains(index.toLowerCase());
-        }).toList();
+        }).toList(); 
       } else {
         filter = _data;
       }
+      actionFilter = false;
     });
   }   
   final fieldText = TextEditingController();
@@ -118,10 +114,12 @@ class StateFullView extends State<FullView> {
       filter = _data;
     });
   }
+
   @override
   Widget build(BuildContext context) {
-    if (filter.isEmpty) {
-      filter = _data;
+    if(actionFilter) {
+      filter = widget.result;
+      _data = widget.result;
     }
     return Scaffold(
       // drawer: const MenuWidget(),
@@ -150,7 +148,7 @@ class StateFullView extends State<FullView> {
                 });
               },
             ),
-          ),          
+          ),            
           InteractiveViewer(
             child: FittedBox(
               child: DataTable(
@@ -172,11 +170,10 @@ class StateFullView extends State<FullView> {
                     DataColumn(label: Text('Down')),
                     DataColumn(label: Text('Actions')),
                   ],            
-                  rows:                        
+                  rows: 
                       filter.asMap().entries.map((entry) {
                         final index = entry.key;
                         final row = entry.value;
-                        final id = row["id"];
                         return DataRow(
                             // onSelectChanged: (value) {
                             //   setState(() {});
@@ -224,8 +221,7 @@ class StateFullView extends State<FullView> {
                                                 tooltip: 'Details',
                                                 onPressed: () {
                                                     setState(() {
-                                                        context.go('/FullDetail/$id');
-                                                        // modal(context, _data, row['id'], 0, row);
+                                                        modal(context, _data, row['id'], 0, row);
                                                     });
                                                 },
                                             ),

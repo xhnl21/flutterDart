@@ -6,7 +6,7 @@ class Full extends StatelessWidget {
   const Full({super.key});
   static const List<Widget> bodyWidget = [
     HomeScreen(),
-    User(),
+    User([]),
     Pluss(),
     FullView(),
   ];
@@ -23,12 +23,18 @@ class Full extends StatelessWidget {
     {'title': 'Layout', 'icon': Icons.contact_mail, 'route':'/Layout'},
     {'title': 'Full', 'icon': Icons.abc_rounded, 'route':'/Full'},
   ];  
+  static const String subtitle = 'Detail FullView';
+  static const  String url = '';
+  static const int pageConutController = 0;
   @override
   Widget build(BuildContext context) {
     return const MyHomePage(
       bodyWidget: bodyWidget,
       bottomNavigationBar: bottomNavigationBar,
       listTile:listTile,
+      subtitle,
+      url,
+      pageConutController
     );
   }
 }
