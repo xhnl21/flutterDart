@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 
 class Pluss extends StatelessWidget {
   const Pluss({super.key});
+  static const routeName = 'Pluss';
+  static const fullPath = '/$routeName';  
   static const List<Map<String, dynamic>> bottomNavigationBar = [
     {'label': 'Home', 'icon': Icons.home, 'iconActive': Icons.home_filled, 'route':'/Home'},
     // {'label': 'Users', 'icon': Icons.person, 'iconActive': Icons.person_2_sharp, 'route':'/User'},

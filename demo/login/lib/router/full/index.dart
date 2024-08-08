@@ -7,11 +7,13 @@ class RouteFull {
   static List<Map<String, dynamic>> getRoutes() {
     return [
       {
-        'path': '/Full',
+        'path': Full.fullPath,
+        'name': Full.routeName,
         'builder': (context, state) => const Full(),
       },
       {
-        'path': '/FullDetail/:id',
+        'path': FullDetails.fullPath,
+        'name': FullDetails.routeName,
         'builder': (BuildContext context, GoRouterState state) {
           final ids = state.pathParameters["id"]!;
           int id = int.parse(ids);

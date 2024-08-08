@@ -23,6 +23,7 @@ class _NewPageAState extends State<NewPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             ElevatedButton(
+              // onPressed: () => context.push('/NewPageB'),
               onPressed: () => context.go('/NewPageB'),
               child: const Text('New Paga B'),
             ),

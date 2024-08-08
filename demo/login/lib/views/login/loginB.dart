@@ -30,6 +30,7 @@ class LoginB extends StatelessWidget {
 
             ElevatedButton(
               onPressed: () => context.go('/Layout'),
+              // onPressed: () => context.push('/Layout'),
               child: const Text('Iniciar Sesion'),
             )
           ],

@@ -1,13 +1,13 @@
 // ignore_for_file: file_names
 import 'package:login/router/inputRouter.dart';
 
-class RouteUser {
+class RouteProducts {
   static List<Map<String, dynamic>> getRoutes() {
     return [
       {
-        'path': User.fullPath,
-        'name':User.routeName,
-        'builder': (context, state) => const User([]),
+        'path': Products.fullPath,
+        'name':Products.routeName,
+        'builder': (context, state) => const Products(),
       },
     ];
   }

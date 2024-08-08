@@ -11,10 +11,30 @@ import 'package:login/views/user/index.dart';
 class Layout extends StatefulWidget {
   const Layout({super.key});
   static const List<Map<String, dynamic>> bottomNavigationBar = [
-    {'label': 'Home', 'icon': Icons.home, 'iconActive': Icons.home_filled, 'route':'/Home'},
-    {'label': 'Users', 'icon': Icons.person, 'iconActive': Icons.person_off, 'route':'/User'},
-    {'label': 'Pluss', 'icon': Icons.plus_one, 'iconActive': Icons.plus_one_sharp, 'route':'/Pluss'},  
-    {'label': 'Pluss', 'icon': Icons.plus_one, 'iconActive': Icons.plus_one_sharp, 'route':'/Pluss'},    
+    {
+      'label': 'Home',
+      'icon': Icons.home,
+      'iconActive': Icons.home_filled,
+      'route': '/Home'
+    },
+    {
+      'label': 'Users',
+      'icon': Icons.person,
+      'iconActive': Icons.person_off,
+      'route': '/User'
+    },
+    {
+      'label': 'Pluss',
+      'icon': Icons.plus_one,
+      'iconActive': Icons.plus_one_sharp,
+      'route': '/Pluss'
+    },
+    {
+      'label': 'Pluss',
+      'icon': Icons.plus_one,
+      'iconActive': Icons.plus_one_sharp,
+      'route': '/Pluss'
+    },
   ];
   static const List<Widget> bodyWidget = [
     Login(),
@@ -25,12 +45,12 @@ class Layout extends StatefulWidget {
     User([])
   ];
   static const List<Map<String, dynamic>> listTile = [
-    {'title': 'Home', 'icon': Icons.home, 'route':'/Home'},
-    {'title': 'About', 'icon': Icons.account_box, 'route':'/NewPageA'},
-    {'title': 'Products', 'icon': Icons.grid_3x3_outlined, 'route':'/NewPageB'},
-    {'title': 'Layout', 'icon': Icons.contact_mail, 'route':'/Layout'},
-    {'title': 'Full', 'icon': Icons.abc_rounded, 'route':'/Full'},
-  ];  
+    // {'title': 'Home', 'icon': Icons.home, 'route':'/Home'},
+    // {'title': 'About', 'icon': Icons.account_box, 'route':'/NewPageA'},
+    // {'title': 'Products', 'icon': Icons.grid_3x3_outlined, 'route':'/NewPageB'},
+    // {'title': 'Layout', 'icon': Icons.contact_mail, 'route':'/Layout'},
+    // {'title': 'Full', 'icon': Icons.abc_rounded, 'route':'/Full'},
+  ];
   @override
   State<Layout> createState() => _LayoutState();
 }
@@ -40,9 +60,9 @@ class _LayoutState extends State<Layout> {
   String title = 'ZZHome';
   List<Map<String, dynamic>> bottomNavigationBar = Layout.bottomNavigationBar;
   List<Widget> bodyWidget = Layout.bodyWidget;
-  final PageController pageController = PageController(initialPage: 0);  
+  final PageController pageController = PageController(initialPage: 0);
   @override
-  Widget build(BuildContext context) {   
+  Widget build(BuildContext context) {
     final bottomNavBarItems = <BottomNavigationBarItem>[
       for (final item in bottomNavigationBar)
         BottomNavigationBarItem(
@@ -53,30 +73,28 @@ class _LayoutState extends State<Layout> {
         ),
     ];
     return Scaffold(
-      drawer: const MenuWidget(listTile:Layout.listTile),
-      appBar: AppBar(
-        title: Text('ZZ$title'),
-      ),
-      body: PageView(
-        controller: pageController,
-        physics: const NeverScrollableScrollPhysics(),
-        children: bodyWidget,
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: currentPage,
-        onTap: (index) {
-          title = bottomNavigationBar[index]['label'] as String;
-          currentPage = index;
-          pageController.animateToPage(index,
-              duration: const Duration(microseconds: 300),
-              curve: Curves.easeOut);
-          setState(() {});
-        },        
-        backgroundColor: const Color.fromARGB(0xFF, 0x42, 0xA5, 0xF5),
-        selectedItemColor: Colors.black,
-        unselectedItemColor: Colors.black.withOpacity(0.5),
-        items: bottomNavBarItems
-      )
-    );
+        drawer: const MenuWidget(listTile: Layout.listTile),
+        appBar: AppBar(
+          title: Text('ZZ$title'),
+        ),
+        body: PageView(
+          controller: pageController,
+          physics: const NeverScrollableScrollPhysics(),
+          children: bodyWidget,
+        ),
+        bottomNavigationBar: BottomNavigationBar(
+            currentIndex: currentPage,
+            onTap: (index) {
+              title = bottomNavigationBar[index]['label'] as String;
+              currentPage = index;
+              pageController.animateToPage(index,
+                  duration: const Duration(microseconds: 300),
+                  curve: Curves.easeOut);
+              setState(() {});
+            },
+            backgroundColor: const Color.fromARGB(0xFF, 0x42, 0xA5, 0xF5),
+            selectedItemColor: Colors.black,
+            unselectedItemColor: Colors.black.withOpacity(0.5),
+            items: bottomNavBarItems));
   }
 }

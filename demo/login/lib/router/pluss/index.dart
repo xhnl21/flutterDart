@@ -5,7 +5,8 @@ class RoutePluss {
   static List<Map<String, dynamic>> getRoutes() {
     return [
       {
-        'path': '/Pluss',
+        'path': Pluss.fullPath,
+        'name': Pluss.routeName,
         'builder': (context, state) => const Pluss(),
       },
     ];

@@ -225,6 +225,7 @@ class StateFullView extends State<FullView> {
                                                 onPressed: () {
                                                     setState(() {
                                                         context.go('/FullDetail/$id');
+                                                        // context.push('/FullDetail/$id');
                                                         // modal(context, _data, row['id'], 0, row);
                                                     });
                                                 },

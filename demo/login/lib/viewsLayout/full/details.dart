@@ -7,6 +7,8 @@ import 'package:login/views/index.dart';
 class FullDetails extends StatelessWidget {
   final int id;
   FullDetails(this.id, {super.key});
+  static const routeName = 'FullDetail';
+  static const fullPath = '/$routeName/:id';
 
   final List<Map<String, dynamic>> _data = [
     {'id':1, 'user_id': 1, 'order':1, 'name': 'John Doe 1', 'age': 30, 'email': 'john.doe@example.com'},  
@@ -41,15 +43,14 @@ class FullDetails extends StatelessWidget {
     // {'label': 'FullView', 'icon': Icons.fullscreen, 'iconActive': Icons.fullscreen_sharp, 'route':'/Pluss'},
   ];  
   static const List<Map<String, dynamic>> listTile = [
-    {'title': 'Home', 'icon': Icons.home, 'route':'/Home'},
-    {'title': 'About', 'icon': Icons.account_box, 'route':'/NewPageA'},
-    {'title': 'Products', 'icon': Icons.grid_3x3_outlined, 'route':'/NewPageB'},
-    {'title': 'Layout', 'icon': Icons.contact_mail, 'route':'/Layout'},
-    {'title': 'Full', 'icon': Icons.abc_rounded, 'route':'/Full'},
+    // {'title': 'Home', 'icon': Icons.home, 'route':'/Home'},
+    // {'title': 'About', 'icon': Icons.account_box, 'route':'/About'},
+    // {'title': 'Products', 'icon': Icons.grid_3x3_outlined, 'route':'/Products'},
+    // {'title': 'Layout', 'icon': Icons.contact_mail, 'route':'/Layout'},
+    // {'title': 'Full', 'icon': Icons.abc_rounded, 'route':'/Full'},
   ];
   final String subtitle = 'Detail FullView';
   static const String url = '/Full';
-  final int pageCountController = 3;
   @override
   Widget build(BuildContext context) {  
     List<Map<String, dynamic>> result = filterData(); 
@@ -62,7 +63,6 @@ class FullDetails extends StatelessWidget {
       listTile:listTile,
       subtitle,
       url,
-      pageCountController
     );
   }
 }

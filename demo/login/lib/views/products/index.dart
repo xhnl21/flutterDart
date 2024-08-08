@@ -5,8 +5,8 @@ import 'package:go_router/go_router.dart';
 // import 'package:login/componets/btnNavBar/index.dart';
 // import 'package:login/views/index.dart';
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+class ProductsScreen extends StatelessWidget {
+  const ProductsScreen({super.key});
   static const List<Map<String, dynamic>> bottomNavigationBar = [
     {'label': 'Home', 'icon': Icons.home, 'iconActive': Icons.person_off, 'route':'/Home'},
     {'label': 'Users', 'icon': Icons.person, 'iconActive': Icons.person_off, 'route':'/User'},

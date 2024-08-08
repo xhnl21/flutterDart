@@ -5,7 +5,8 @@ class RouteLayout {
   static List<Map<String, dynamic>> getLayout() {
     return [
       {
-        'path': '/Layout',
+        'path': Layout.fullPath,
+        'name':Layout.routeName,
         'builder': (context, state) => const Layout(),
       },
     ];

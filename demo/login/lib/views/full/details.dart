@@ -217,15 +217,6 @@ class StateFullDetailsView extends State<FullDetailsView> {
                                     Row(
                                         children: <Widget>[
                                             IconButton(
-                                                icon: const Icon(Icons.abc),
-                                                tooltip: 'Details',
-                                                onPressed: () {
-                                                    setState(() {
-                                                        modal(context, _data, row['id'], 0, row);
-                                                    });
-                                                },
-                                            ),
-                                            IconButton(
                                                 icon: const Icon(Icons.edit),
                                                 tooltip: 'Edit Row',
                                                 onPressed: () {

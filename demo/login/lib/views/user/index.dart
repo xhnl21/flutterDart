@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 class User extends StatelessWidget {
   final List<Map<String, dynamic>> bottomNavigationBar;
   const User(this.bottomNavigationBar, {super.key});
+  static const routeName = 'User';
+  static const fullPath = '/$routeName';  
   // static const List<Map<String, dynamic>> bottomNavigationBar;
   // = [
   //   {'label': 'Home', 'icon': Icons.home, 'iconActive': Icons.home_filled, 'route':'/Home'},

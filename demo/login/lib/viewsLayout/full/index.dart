@@ -4,9 +4,18 @@ import 'package:login/views/index.dart';
 
 class Full extends StatelessWidget {
   const Full({super.key});
+  static const routeName = 'Full';
+  static const fullPath = '/$routeName';
+
+  static const List<Map<String, dynamic>> contentCard = [
+    {'title': 'Homes', 'icon': Icons.home, 'iconActive': Icons.home_filled, 'subtitle':'Este es el subtitulo del card. Aqui podemos colocar descripción de este card.'},
+    {'title': 'Users', 'icon': Icons.person, 'iconActive': Icons.person_off, 'subtitle':'Este es el subtitulo del card. Aqui podemos colocar descripción de este card.'},
+    {'title': 'Pluss', 'icon': Icons.plus_one, 'iconActive': Icons.plus_one_sharp, 'subtitle':'Este es el subtitulo del card. Aqui podemos colocar descripción de este card.'},  
+    {'title': 'Pluss', 'icon': Icons.plus_one, 'iconActive': Icons.plus_one_sharp, 'subtitle':'Este es el subtitulo del card. Aqui podemos colocar descripción de este card.'},    
+  ];    
   static const List<Widget> bodyWidget = [
     HomeScreen(),
-    User([]),
+    User(contentCard),
     Pluss(),
     FullView(),
   ];
@@ -17,15 +26,14 @@ class Full extends StatelessWidget {
     {'label': 'FullView', 'icon': Icons.fullscreen, 'iconActive': Icons.fullscreen_sharp, 'route':'/Pluss'},
   ];  
   static const List<Map<String, dynamic>> listTile = [
-    {'title': 'Home', 'icon': Icons.home, 'route':'/Home'},
-    {'title': 'About', 'icon': Icons.account_box, 'route':'/NewPageA'},
-    {'title': 'Products', 'icon': Icons.grid_3x3_outlined, 'route':'/NewPageB'},
-    {'title': 'Layout', 'icon': Icons.contact_mail, 'route':'/Layout'},
-    {'title': 'Full', 'icon': Icons.abc_rounded, 'route':'/Full'},
+    // {'title': 'Home', 'icon': Icons.home, 'route':'/Home'},
+    // {'title': 'About', 'icon': Icons.account_box, 'route':'/About'},
+    // {'title': 'Products', 'icon': Icons.grid_3x3_outlined, 'route':'/Products'},
+    // {'title': 'Layout', 'icon': Icons.contact_mail, 'route':'/Layout'},
+    // {'title': 'Full', 'icon': Icons.abc_rounded, 'route':'/Full'},
   ];  
-  static const String subtitle = 'Detail FullView';
+  static const String subtitle = 'FullView master';
   static const  String url = '';
-  static const int pageConutController = 0;
   @override
   Widget build(BuildContext context) {
     return const MyHomePage(
@@ -34,7 +42,6 @@ class Full extends StatelessWidget {
       listTile:listTile,
       subtitle,
       url,
-      pageConutController
     );
   }
 }

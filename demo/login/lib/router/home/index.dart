@@ -5,8 +5,9 @@ class RouteHome {
   static List<Map<String, dynamic>> getRoutes() {
     return [
       {
-        'path': '/Home',
-        'builder': (context, state) => const HomeScreen(),
+        'path': Home.fullPath,
+        'name': Home.routeName,
+        'builder': (context, state) => const Home(),
       },
     ];
   }

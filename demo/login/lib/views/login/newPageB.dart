@@ -24,6 +24,7 @@ class _NewPageBState extends State<NewPageB> {
           children: [
             ElevatedButton(
               onPressed: () => context.go('/NewPageA'),
+              // onPressed: () => context.push('/NewPageA'),
               child: const Text('New Paga A'),
             ),
           ],

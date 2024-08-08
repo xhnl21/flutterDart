@@ -10,6 +10,7 @@ class MyFooter extends StatelessWidget {
           title: const Text('Logout'),
           onTap: () { 
             context.go('/LoginB');
+            // context.push('/LoginB');
           },
       );
     }
