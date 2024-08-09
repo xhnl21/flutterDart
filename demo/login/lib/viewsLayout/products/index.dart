@@ -58,7 +58,7 @@ class Products extends StatelessWidget {
     // {'title': 'Full', 'icon': Icons.abc_rounded, 'route':'/Full'},
   ];
   static const String subtitle = 'Products';
-  static const String url = '';
+  static const String url = '';  
   @override
   Widget build(BuildContext context) {
     return const MyHomePage(
@@ -66,7 +66,7 @@ class Products extends StatelessWidget {
       bottomNavigationBar: bottomNavigationBar,
       listTile: listTile,
       subtitle,
-      url,
+      url,      
     );
   }
 }

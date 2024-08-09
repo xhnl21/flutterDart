@@ -7,9 +7,7 @@ class MyHomePage extends StatefulWidget {
   final String url;
   final List<Map<String, dynamic>> bottomNavigationBar;
   final List<Map<String, dynamic>> listTile;
-  static int currentPage = 0;
   static String title = '';
-  static final PageController pageController = PageController(initialPage: 0);
   List<BottomNavigationBarItem> get methodBNB {
     return <BottomNavigationBarItem>[
       for (final item in bottomNavigationBar)
@@ -21,6 +19,7 @@ class MyHomePage extends StatefulWidget {
         ),
     ];
   }
+  
   @override
   State<MyHomePage> createState() => MyHomePageState();
 }

@@ -38,7 +38,7 @@ class Layout extends StatelessWidget {
     // {'title': 'Full', 'icon': Icons.abc_rounded, 'route':'/Full'},
   ];  
   static const String subtitle = 'Detail FullView';  
-  static const  String url = '';
+  static const  String url = '';   
   @override
   Widget build(BuildContext context) {
     return const MyHomePage(
@@ -46,7 +46,7 @@ class Layout extends StatelessWidget {
       bottomNavigationBar: bottomNavigationBar,
       listTile:listTile,
       subtitle,
-      url,
+      url,  
     );
   }
 }

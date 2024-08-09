@@ -66,7 +66,7 @@ class Home extends StatelessWidget {
       bottomNavigationBar: bottomNavigationBar,
       listTile: listTile,
       subtitle,
-      url,
+      url, 
     );
   }
 }
