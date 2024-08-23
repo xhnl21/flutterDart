@@ -1,4 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Aquí se agrega el permiso de Internet -->
+    <uses-permission android:name="android.permission.INTERNET" />
     <application
         android:label="login"
         android:name="${applicationName}"

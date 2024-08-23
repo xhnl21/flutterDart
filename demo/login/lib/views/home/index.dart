@@ -61,6 +61,7 @@ class _HomeScreenState extends State<HomeScreen> {
       final res = await Dio().get(url);
       return res.data['count']; 
   }
+  
   Future getDetailsResques(String url) async {
       if (url != '') {
         final res = await Dio().get(url);
@@ -69,11 +70,12 @@ class _HomeScreenState extends State<HomeScreen> {
         return [];
       }
   }  
+  
   Future<void> get() async {
     int count = await getAllResques();
     // counst = count;
     // counst = 1020;
-    counst = 150;
+    counst = 30;
     if (count > 0) {
         String url = 'https://pokeapi.co/api/v2/pokemon?limit=$counst';
         // String url = 'https://pokeapi.co/api/v2/pokemon?limit=$count';
@@ -86,7 +88,9 @@ class _HomeScreenState extends State<HomeScreen> {
           masterDetails.add(
             {'name': poke.name, 'url': poke.url, 'detail': detail, 'types': types},
           );
-          setState(() {});
+          // if (counst == masterDetails.length) {
+            setState(() {});
+          // }
         }
     }    
   }
@@ -99,67 +103,67 @@ class _HomeScreenState extends State<HomeScreen> {
       // ),
       body: 
       SafeArea(
-        child:
-          LisViewWidget(masterDetails: masterDetails, counst: counst),
-        ),
-      // Center(
-      //   child: ListView(
-      //       children: [
-      //           Row(
-      //             mainAxisAlignment: MainAxisAlignment.center,
-      //             children: [
-      //               Text(pokemon?.name ?? 'No data'),
-      //               if (pokemon != null)
-      //               ...[
-      //                 Image.network(pokemon!.sprites.frontDefault),
-      //                 Image.network(pokemon!.sprites.backDefault),                      
-      //                 Image.network(pokemon!.sprites.frontShiny),
-      //                 Image.network(pokemon!.sprites.backShiny),
-      //                 Image.network(pokemon!.sprites.other!.showdown.frontDefault),
-      //                 Image.network(pokemon!.sprites.other!.showdown.backDefault),
-      //                 Image.network(pokemon!.sprites.other!.showdown.frontShiny),
-      //                 Image.network(pokemon!.sprites.other!.showdown.backShiny),                 
-      //               ],
-      //             ],
-      //           ),
-      //           Column(
-      //             mainAxisAlignment: MainAxisAlignment.center,
-      //             children: [
-      //               Text(pokemon?.name ?? 'No data'),
-      //               if (pokemon != null)
-      //               ...[
-      //                 Image.network(pokemon!.sprites.frontDefault),
-      //                 Image.network(pokemon!.sprites.backDefault),                      
-      //                 Image.network(pokemon!.sprites.frontShiny),
-      //                 Image.network(pokemon!.sprites.backShiny),
-      //                 Image.network(pokemon!.sprites.other!.showdown.frontDefault),
-      //                 Image.network(pokemon!.sprites.other!.showdown.backDefault),
-      //                 Image.network(pokemon!.sprites.other!.showdown.frontShiny),
-      //                 Image.network(pokemon!.sprites.other!.showdown.backShiny),                 
-      //               ],
-      //               ElevatedButton(
-      //                 onPressed: () => context.go('/NewPageA'),
-      //                 // onPressed: () => context.push('/NewPageA'),
-      //                 child: const Text('NewPageA'),
-      //               ),
-      //               ElevatedButton(
-      //                 onPressed: () => context.go('/NewPageB'),
-      //                 // onPressed: () => context.push('/NewPageB'),
-      //                 child: const Text('NewPageB'),
-      //               ),
-      //             ],
-      //           ),
-      //         ],
-      //       )
-      //   ),
-      // bottomNavigationBar: const BtnNavBar(bottomNavigationBar),
-      // floatingActionButton: FloatingActionButton(
-      //   child: const Icon(Icons.navigate_next),
-      //   onPressed: () {
-      //     getPokemon();
-      //   },
-      // ),
-    );
+          child:
+            LisViewWidget(masterDetails: masterDetails, counst: counst),
+          ),
+          // Center(
+          //   child: ListView(
+          //       children: [
+          //           Row(
+          //             mainAxisAlignment: MainAxisAlignment.center,
+          //             children: [
+          //               Text(pokemon?.name ?? 'No data'),
+          //               if (pokemon != null)
+          //               ...[
+          //                 Image.network(pokemon!.sprites.frontDefault),
+          //                 Image.network(pokemon!.sprites.backDefault),                      
+          //                 Image.network(pokemon!.sprites.frontShiny),
+          //                 Image.network(pokemon!.sprites.backShiny),
+          //                 Image.network(pokemon!.sprites.other!.showdown.frontDefault),
+          //                 Image.network(pokemon!.sprites.other!.showdown.backDefault),
+          //                 Image.network(pokemon!.sprites.other!.showdown.frontShiny),
+          //                 Image.network(pokemon!.sprites.other!.showdown.backShiny),                 
+          //               ],
+          //             ],
+          //           ),
+          //           Column(
+          //             mainAxisAlignment: MainAxisAlignment.center,
+          //             children: [
+          //               Text(pokemon?.name ?? 'No data'),
+          //               if (pokemon != null)
+          //               ...[
+          //                 Image.network(pokemon!.sprites.frontDefault),
+          //                 Image.network(pokemon!.sprites.backDefault),                      
+          //                 Image.network(pokemon!.sprites.frontShiny),
+          //                 Image.network(pokemon!.sprites.backShiny),
+          //                 Image.network(pokemon!.sprites.other!.showdown.frontDefault),
+          //                 Image.network(pokemon!.sprites.other!.showdown.backDefault),
+          //                 Image.network(pokemon!.sprites.other!.showdown.frontShiny),
+          //                 Image.network(pokemon!.sprites.other!.showdown.backShiny),                 
+          //               ],
+          //               ElevatedButton(
+          //                 onPressed: () => context.go('/NewPageA'),
+          //                 // onPressed: () => context.push('/NewPageA'),
+          //                 child: const Text('NewPageA'),
+          //               ),
+          //               ElevatedButton(
+          //                 onPressed: () => context.go('/NewPageB'),
+          //                 // onPressed: () => context.push('/NewPageB'),
+          //                 child: const Text('NewPageB'),
+          //               ),
+          //             ],
+          //           ),
+          //         ],
+          //       )
+          //   ),
+          // bottomNavigationBar: const BtnNavBar(bottomNavigationBar),
+          // floatingActionButton: FloatingActionButton(
+          //   child: const Icon(Icons.navigate_next),
+          //   onPressed: () {
+          //     getPokemon();
+          //   },
+          // ),
+      );
   }
 }
 
@@ -192,8 +196,29 @@ class LisViewWidget extends StatelessWidget {
       );
     } else {
       // _HomeScreenState().modal(context);
+      print(masterDetails.length);
+      
+      var i = masterDetails.length;
+      var sum = i - 1; 
+      // print(masterDetails[sum]);
+      // final card = masterDetails[sum];
+      // Color pokemonColor = getColorFromType(card['types'][0]['name']);
       return const Center(
-        child: CircularProgressIndicator(),
+        child: 
+            Dialog(
+              child: Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    CircularProgressIndicator(),
+                    Text('This is a typical dialog.'),
+                  ],
+                ),
+              ),
+            ),
+            // CircularProgressIndicator(),
       );   
     }
   }
@@ -246,7 +271,7 @@ class ImgContent extends StatelessWidget {
   final String? background;
   @override
   Widget build(BuildContext context) {
-  var urlBackground = 'background/$background.jpg';
+  var urlBackground = 'assets/background/$background.jpg';
     if (img != '') {
         return Container(
             margin: const EdgeInsets.only(right: 9.0),
@@ -325,7 +350,6 @@ String numberPokemon([int number = 0]) {
 
 typesPokemon(data, name) async {
   Map<String, Object> colorType = getTypesPokemonSelectedColor(data[0]['type']['name']);
-  // print(colorType);
   List<Map<String, dynamic>> md = [];
   for (var i = 0; i < data.length; i++) {
     var url = data[i]['type']['url'];
