@@ -1,15 +1,22 @@
-// ignore_for_file: file_names
+// ignore_for_file: file_names, avoid_print
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:login/componets/index.dart';
 // import 'package:login/views/index.dart';
-
+// import 'package:login/global/connectivity_service.dart';
 class LoginB extends StatelessWidget {
   const LoginB({super.key});
 
   @override
   Widget build(BuildContext context) {
+    // WidgetsBinding.instance.addPostFrameCallback((_) {
+    //   final conn = ConnectivityService.connectionStatusServise();
+    //   if (conn[0]['status'] > 0) {
+    //       showToast(context, conn[0]['msj']);
+    //   }
+    // });
+
     final size = MediaQuery.of(context).size;
     const labelA = "Email";
     const hintTextA = "Enter your email";
@@ -39,3 +46,14 @@ class LoginB extends StatelessWidget {
     );
   }
 }
+
+// void showToast(BuildContext context, String message) {
+//   // print(message);
+//   final scaffold = ScaffoldMessenger.of(context);
+//   scaffold.showSnackBar(
+//     SnackBar(
+//       content: Text(message),
+//       backgroundColor: Colors.red,
+//     ),
+//   );
+// } 

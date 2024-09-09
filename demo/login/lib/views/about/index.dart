@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:login/global/notification.dart';
 // import 'package:login/componets/btnNavBar/index.dart';
 // import 'package:login/views/index.dart';
 
@@ -33,6 +34,13 @@ class AboutScreen extends StatelessWidget {
               // onPressed: () => context.push('/NewPageB'),
               child: const Text('NewPageB'),
             ),
+            ElevatedButton(
+              onPressed: () {
+                NotificationHelper.pushNotification('title', 'body');
+              },
+              // onPressed: () => context.push('/NewPageB'),
+              child: const Text('notification'),
+            ),            
           ],
         ),
       ),

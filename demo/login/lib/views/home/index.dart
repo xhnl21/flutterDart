@@ -1,17 +1,24 @@
 // ignore_for_file: file_names, avoid_print
 
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
-// import 'package:go_router/go_router.dart';
+import 'package:go_router/go_router.dart';
+import 'package:login/global/index.dart';
 import 'package:login/infrastructure/models/all_pokemon.dart';
 import 'package:login/infrastructure/models/pokemon.dart';
 import 'package:login/infrastructure/models/type_pokemon.dart';
+import '../../methods/home/method.dart';
+
 import 'package:login/views/index.dart';
+
+// import 'package:login/global/connectivity_service.dart';
 // import 'package:login/componets/btnNavBar/index.dart';
 // import 'package:login/views/index.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+  final Function? inits;
+
+  const HomeScreen({super.key, this.inits});
+
   static const List<Map<String, dynamic>> bottomNavigationBar = [
     {'label': 'Home', 'icon': Icons.home, 'iconActive': Icons.person_off, 'route':'/Home'},
     {'label': 'Users', 'icon': Icons.person, 'iconActive': Icons.person_off, 'route':'/User'},
@@ -22,31 +29,44 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  Global? global;
+  Methods? methods;
   Pokemon? pokemon;
   AllPokemon? allPokemon;
   int pokemonId = 0;
   final List<Map<String, dynamic>> masterDetails = [];
+  final List<Map<String, dynamic>> masterDetailsx = [];
   int counst = 0;
-  
+  double progressValue = 0.0;
+  double increment = 1.0;
   @override
   void initState() {
     super.initState();
     // getPokemon();
-    get();
+    init();
+    // _initData();
   }
-
-  Future<void> modal(BuildContext context) {
-    String title = 'Delete Data';
-    return showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(title),
-          content: const Text("demo"),
-        );
-      },
-    );
-  }  
+  // void _initData() async {
+  //   if (widget.inits != null) {
+  //     final data = await widget.inits!();
+  //     setState(() {
+  //       masterDetails.addAll(data as Iterable<Map<String, dynamic>>);
+  //     });
+  //     print('class::HomeScreen, method::_initData, linea::55');
+  //     var count = masterDetails.length;
+  //     if (count > 0) {
+  //       var rs = (increment / count);
+  //       for (var i = 0; i < count; i++) {
+  //         setState(() {
+  //           progressValue += rs;
+  //         });
+  //         counst += 1;
+  //       }
+  //       // print('ddd $counst');
+  //       // print(count);
+  //     } 
+  //   }
+  // }
 
   Future<void> getPokemon() async {
       pokemonId++;
@@ -55,47 +75,44 @@ class _HomeScreenState extends State<HomeScreen> {
       pokemon = Pokemon.fromJson(response.data);
       setState(() {});
   }
- 
-  Future<int> getAllResques() async {
-      String url = 'https://pokeapi.co/api/v2/pokemon/';
-      final res = await Dio().get(url);
-      return res.data['count']; 
-  }
   
-  Future getDetailsResques(String url) async {
-      if (url != '') {
-        final res = await Dio().get(url);
-        return res.data;
-      } else {
-        return [];
-      }
-  }  
-  
-  Future<void> get() async {
-    int count = await getAllResques();
-    // counst = count;
+  Future<void> init() async {
+    String url = 'https://pokeapi.co/api/v2/pokemon/';
+    int count = await Methods.getAllResques(url);
+    counst = count;
     // counst = 1020;
     counst = 30;
     if (count > 0) {
+        var rs = (increment / counst);
         String url = 'https://pokeapi.co/api/v2/pokemon?limit=$counst';
         // String url = 'https://pokeapi.co/api/v2/pokemon?limit=$count';
         final res = await Dio().get(url);
         allPokemon = AllPokemon.fromJson(res.data);
         var data = allPokemon!.results;
         for (var poke in data) {
-          var detail = await getDetailsResques(poke.url);
-          var types = await typesPokemon(detail['types'], poke.name);
+          // print(poke.url);
+          var detail = await Methods.get(poke.url);
+          var types = await typesPokemons(detail['types'], poke.name);
           masterDetails.add(
             {'name': poke.name, 'url': poke.url, 'detail': detail, 'types': types},
           );
-          // if (counst == masterDetails.length) {
-            setState(() {});
-          // }
+          setState(() {
+            progressValue += rs;
+          });
         }
     }    
   }
+
   @override
   Widget build(BuildContext context) {
+    // Widget dataBody;
+    // if (masterDetails.isNotEmpty) {
+    //   dataBody = LisViewWidget(masterDetails: masterDetails, counst: counst, progressValue:progressValue);
+    // } else {
+    //   dataBody = const NoDataWidget();   
+    // }
+    
+    Widget dataBody = LisViewWidget(masterDetails: masterDetails, counst: counst, progressValue:progressValue);
     return Scaffold(
       // drawer: const MenuWidget(),
       // appBar: AppBar(
@@ -104,7 +121,7 @@ class _HomeScreenState extends State<HomeScreen> {
       body: 
       SafeArea(
           child:
-            LisViewWidget(masterDetails: masterDetails, counst: counst),
+            dataBody,
           ),
           // Center(
           //   child: ListView(
@@ -167,18 +184,62 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
+class NoDataWidget extends StatelessWidget {
+  const NoDataWidget({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return const Center(
+      child: Dialog(
+            child: 
+            Padding(
+              padding: EdgeInsets.all(0.0),
+              child: 
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Card(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(4.0),
+                        topRight: Radius.circular(4.0),
+                        bottomLeft: Radius.circular(0.0),
+                        bottomRight: Radius.circular(0.0),
+                      ),
+                    ),
+                    margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                    elevation: 0,
+                    child: Text('Data no found'),
+                  ),
+                ],
+              ),
+            ),
+          ),
+    );
+  }
+}
+
 class LisViewWidget extends StatelessWidget {
   const LisViewWidget({
     super.key,
     required this.masterDetails,
-    required this.counst,
+    required this.counst, 
+    required this.progressValue,
   });
 
   final List<Map<String, dynamic>> masterDetails;
   final int counst;
+  final double progressValue;
 
   @override
   Widget build(BuildContext context) {
+  
+    if (masterDetails.isEmpty) {
+      return const NoDataWidget();
+    }  
     if (counst == masterDetails.length) {
       return ListView.builder(
         itemCount: masterDetails.length,
@@ -190,35 +251,56 @@ class LisViewWidget extends StatelessWidget {
             color: pokemonColor,
             margin: const EdgeInsets.all(15),
             elevation: 10,
-            child: CardWidgetCustoms(card: card),
+            child: CardWidgetCustoms(card: card, counst: counst, masterDetails: masterDetails),
           );
         }                
       );
-    } else {
-      // _HomeScreenState().modal(context);
-      print(masterDetails.length);
-      
+    } else {    
       var i = masterDetails.length;
       var sum = i - 1; 
-      // print(masterDetails[sum]);
-      // final card = masterDetails[sum];
-      // Color pokemonColor = getColorFromType(card['types'][0]['name']);
-      return const Center(
+      final card = masterDetails[sum];
+      Color pokemonColor = getColorFromType(card['types'][0]['name']);
+      return Center(
         child: 
             Dialog(
-              child: Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Column(
+              child: 
+              Padding(
+                padding: const EdgeInsets.all(0.0),
+                child: 
+                Column(
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    CircularProgressIndicator(),
-                    Text('This is a typical dialog.'),
+                    Card(
+                      shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(4.0),
+                          topRight: Radius.circular(4.0),
+                          bottomLeft: Radius.circular(0.0),
+                          bottomRight: Radius.circular(0.0),
+                        ),
+                      ),
+                      color: pokemonColor,
+                      margin: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                      elevation: 0,
+                      child: CardWidgetCustoms(card: card, counst: counst, masterDetails: masterDetails),
+                    ),
+                    // const CircularProgressIndicator(),
+                    LinearProgressIndicator(
+                      backgroundColor: const Color.fromARGB(0, 233, 160, 3),
+                      value: progressValue,
+                      // semanticsLabel: 'Linear progress indicator',
+                      borderRadius:const BorderRadius.only(
+                          topLeft: Radius.circular(0.0),
+                          topRight: Radius.circular(0.0),
+                          bottomLeft: Radius.circular(8.0),
+                          bottomRight: Radius.circular(8.0),
+                        ),
+                    ),
                   ],
                 ),
               ),
             ),
-            // CircularProgressIndicator(),
       );   
     }
   }
@@ -228,35 +310,86 @@ class CardWidgetCustoms extends StatelessWidget {
   const CardWidgetCustoms({
     super.key,
     required this.card,
+    required this.masterDetails,
+    required this.counst,      
   });
   final Map<String, dynamic> card;
+  final int counst;
+  final List<Map<String, dynamic>> masterDetails;  
   @override
   Widget build(BuildContext context) {
     var data = Pokemon.fromJson(card['detail']);
     var img = data.sprites?.other?.showdown?.frontDefault;   
-    var id = numberPokemon(data.id);
+    var id = Global.numberPokemon(data.id);
     var types = card["types"];
     var background= card['types'][0]['name'];
     return Column(
       children: <Widget>[
         Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          textDirection: TextDirection.ltr,
           children: [
             ImgContent(img: img, background:background),
-            Column(
-              textDirection: TextDirection.ltr,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children:<Widget>[                            
-                Text(card['name'], textAlign: TextAlign.left),
-                Text(id, textAlign: TextAlign.left)
-              ]
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children:<Widget>[
+                  Text(card['name'], textAlign: TextAlign.left),
+                  Row(
+                    children: [
+                        Image.asset('assets/images/hastag.png', width: 12, height: 12,), Text( id, textAlign: TextAlign.left)
+                    ]
+                  )
+                ]
+              ),
+            ),            
+            Container(
+              margin: const EdgeInsets.only(left: 9.0),
+              child: ImgContentType(types, card['name']),
             ),
-            ImgContentType(types, card['name']),
+            DetailWidget(id:data.id, counst: counst, masterDetails: masterDetails),
           ],
         ),
       ],
     );
+  }
+}
+
+class DetailWidget extends StatelessWidget {
+  const DetailWidget({
+    super.key,
+    required this.id,
+    required this.masterDetails,
+    required this.counst,     
+  });
+  final int id;
+  final int counst;
+  final List<Map<String, dynamic>> masterDetails;
+  @override
+  Widget build(BuildContext context) {
+    if (counst == masterDetails.length) {
+      return Container(
+        margin: const EdgeInsets.only(
+              right: 9.0,
+              left: 9.0
+            ),
+        child: IconButton(
+              onPressed: () {
+                context.go('/HomeDetails/$id');
+              },
+              icon: const Icon(
+                    Icons.arrow_forward_ios,
+                    color: Colors.grey,
+                ),
+            ),
+      );
+    } else {
+      return Container(
+        margin: const EdgeInsets.only(
+              right: 9.0,
+              left: 9.0
+            ),
+        child: const Text('')
+      );
+    }
   }
 }
 
@@ -298,7 +431,7 @@ class ImgContent extends StatelessWidget {
             borderRadius: BorderRadius.all(Radius.circular(5.0)),
             color: Colors.redAccent,
           ),
-          child: Image.asset('images/notFound.png', width: 50, height: 50,),
+          child: Image.asset('assets/images/notFound.png', width: 50, height: 50,),
         );
     }
   }
@@ -318,7 +451,10 @@ class ImgContentType extends StatelessWidget {
       final types = TypePokemon.fromJson(item['detail']);
       final img = types.sprites?.generationViii?.swordShield?.nameIcon;
       listTiles.add(
-        Image.network(img!, width: 50, height: 50,),
+        Container(
+          margin: const EdgeInsets.only(left: 3.0),
+          child: Image.network(img!, width: 50, height: 50,),          
+        )        
       );
     }
     return Row(
@@ -327,98 +463,29 @@ class ImgContentType extends StatelessWidget {
   }
 }
 
-String numberPokemon([int number = 0]) {
-  if (number < 10) {
-    return '00000$number';
-    // 0001
-  } else if (number < 100) {
-    return '0000$number';
-    // 0010
-  } else if (number < 1000) {
-    return '00$number';
-    // 0100
-  } else if (number < 10000) {
-    return '0$number';
-    // 0100
-  } else if (number < 100000) {
-    return '$number';
-    // 0100
-  } else {
-    return '0000';
-  }
-}
 
-typesPokemon(data, name) async {
-  Map<String, Object> colorType = getTypesPokemonSelectedColor(data[0]['type']['name']);
+
+typesPokemons(data, name) async {
   List<Map<String, dynamic>> md = [];
   for (var i = 0; i < data.length; i++) {
     var url = data[i]['type']['url'];
-    // Usamos await para obtener los datos del Future
-    var detail = await getTypesPokemon(url);
+    var detail = await Methods.get(url);
     md.add({
       'name': data[i]['type']['name'],
       'url': url,
       'detail': detail,
-      'color': colorType,
     });
   }
   return md;
 }
 
-getTypesPokemon(String url) async {
-    final response = await Dio().get(url);
-    return response.data;
-}
-
 // Función para obtener los valores RGB y convertirlos en un Color
 Color getColorFromType(String type) {
-  Map<String, int> colorMap = getTypesPokemonSelectedColor(type);
+  Map<String, int> colorMap = Global.getTypesPokemonSelectedColor(type);
   return Color.fromARGB(
     colorMap['A']!,
     colorMap['R']!,
     colorMap['G']!,
     colorMap['B']!,
   );
-}
-
-Map<String, int> getTypesPokemonSelectedColor(String type) {
-  if (type == "grass") {
-    return {'A':255, 'R':157, 'G':208, 'B':145};
-  } else if (type == "poison") {
-    return {'A':255, 'R':200, 'G':158, 'B':229};
-  } else if (type == "fire") {
-    return {'A':255, 'R':242, 'G':144, 'B':145};
-  } else if (type == "flying") {
-    return {'A':255, 'R':192, 'G':220, 'B':247};
-  } else if (type == "water") {
-    return {'A':255, 'R':145, 'G':191, 'B':247};
-  } else if (type == "bug") {
-    return {'A':255, 'R':200, 'G':208, 'B':136};
-  } else if (type == "normal") {
-    return {'A':255, 'R':207, 'G':207, 'B':207};
-  } else if (type == "ground") {
-    return {'A':255, 'R':200, 'G':167, 'B':140};
-  } else if (type == "electric") {
-    return {'A':255, 'R':252, 'G':223, 'B':127};
-  } else if (type == "fairy") {
-    return {'A':255, 'R':246, 'G':183, 'B':247};
-  } else if (type == "fighting") {
-    return {'A':255, 'R':255, 'G':191, 'B':127};
-  } else if (type == "psychic") {
-    return {'A':255, 'R':246, 'G':158, 'B':188};
-  } else if (type == "rock") {
-    return {'A':255, 'R':215, 'G':212, 'B':192};
-  } else if (type == "ice") {
-    return {'A':255, 'R':157, 'G':235, 'B':255};
-  } else if (type == "ghost") {
-    return {'A':255, 'R':183, 'G':158, 'B':183};
-  } else if (type == "dragon") {
-    return {'A':255, 'R':166, 'G':175, 'B':240};
-  } else if (type == "steel") {
-    return {'A':255, 'R':175, 'G':208, 'B':219};
-  }  else if (type == "dark") {
-    return {'A':255, 'R':158, 'G':158, 'B':157};
-  } else {
-    return {'A':255, 'R':85, 'G':34, 'B':119};    
-  }
 }

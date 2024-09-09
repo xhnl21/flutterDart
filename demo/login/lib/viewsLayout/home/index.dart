@@ -1,8 +1,19 @@
+// ignore_for_file: avoid_print
+
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+// import 'package:login/global/show_toast.dart';
+import 'package:login/infrastructure/models/all_pokemon.dart';
+import 'package:login/infrastructure/models/pokemon.dart';
+import 'package:login/methods/home/method.dart';
 import 'package:login/viewsLayout/index.dart';
 
 import '../../layout/index.dart';
 // dynamic [appBar.title, body.children, bottomNavigationBar]
+
+  Methods? methods;
+  Pokemon? pokemon;
+  AllPokemon? allPokemon;
 
 class Home extends StatelessWidget {
   const Home({super.key});
@@ -47,7 +58,7 @@ class Home extends StatelessWidget {
   ];
 
   static const List<Widget> bodyWidget = [
-    HomeScreen(),
+    // HomeScreen(),
   ];
 
   static const List<Map<String, dynamic>> listTile = [
@@ -59,10 +70,41 @@ class Home extends StatelessWidget {
   ];
   static const String subtitle = 'Home';
   static const String url = '';
+
+
+
+  Future<List<Map<String, dynamic>>> inits() async {
+    final List<Map<String, dynamic>> masterDetails = [];
+    String url = 'https://pokeapi.co/api/v2/pokemon/';
+    int count = await Methods.getAllResques(url);
+    count = 30;
+    if (count > 0) {
+        // print(count);
+      String url = 'https://pokeapi.co/api/v2/pokemon?limit=$count';
+      final res = await Dio().get(url);
+      // allPokemon = AllPokemon.fromJson(res.data);
+      var data = res.data.results;
+      for (var poke in data) {
+        var detail = await Methods.get(poke.url);
+        var types = await typesPokemon(detail['types'], poke.name);
+        masterDetails.add(
+          {'name': poke.name, 'url': poke.url, 'detail': detail, 'types': types},
+        );
+      }
+      return masterDetails;
+    } else {
+      return [];
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return const MyHomePage(
-      bodyWidget: bodyWidget,
+      // ShowToast.showToasts(context);
+    // var rs = initsx();
+    // print(rs);
+    return MyHomePage(
+      // bodyWidget: [HomeScreen()],
+      bodyWidget: [HomeScreen(inits: inits)],
       bottomNavigationBar: bottomNavigationBar,
       listTile: listTile,
       subtitle,
@@ -70,3 +112,40 @@ class Home extends StatelessWidget {
     );
   }
 }
+typesPokemon(data, name) async {
+  List<Map<String, dynamic>> md = [];
+  for (var i = 0; i < data.length; i++) {
+    var url = data[i]['type']['url'];
+    var detail = await Methods.get(url);
+    md.add({
+      'name': data[i]['type']['name'],
+      'url': url,
+      'detail': detail,
+    });
+  }
+  return md;
+}
+
+  Future initsx() async {
+    final List<Map<String, dynamic>> masterDetails = [];
+    String url = 'https://pokeapi.co/api/v2/pokemon/';
+    int count = await Methods.getAllResques(url);
+    count = 30;
+    if (count > 0) {
+        print(count);
+      String url = 'https://pokeapi.co/api/v2/pokemon?limit=$count';
+      final res = await Dio().get(url);
+      allPokemon = AllPokemon.fromJson(res.data);
+      var data = allPokemon!.results;
+      for (var poke in data) {
+        var detail = await Methods.get(poke.url);
+        var types = await typesPokemon(detail['types'], poke.name);
+        masterDetails.add(
+          {'name': poke.name, 'url': poke.url, 'detail': detail, 'types': types},
+        );
+      }
+      return masterDetails;
+    } else {
+      return [];
+    }
+  }

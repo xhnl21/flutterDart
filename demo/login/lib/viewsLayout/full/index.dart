@@ -1,3 +1,6 @@
+// ignore_for_file: avoid_print
+
+// import 'package:login/global/show_toast.dart';
 import 'package:login/layout/index.dart';
 import 'package:login/views/full/index.dart';
 import 'package:login/views/index.dart';
@@ -36,6 +39,7 @@ class Full extends StatelessWidget {
   static const  String url = '';
   @override
   Widget build(BuildContext context) {
+    // ShowToast.showToasts(context);   
     return const MyHomePage(
       bodyWidget: bodyWidget,
       bottomNavigationBar: bottomNavigationBar,

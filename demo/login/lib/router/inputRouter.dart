@@ -13,6 +13,8 @@ export 'package:login/views/pluss/index.dart';
 
 
 export 'package:login/viewsLayout/home/index.dart';
+export 'package:login/viewsLayout/home/details.dart';
+
 export 'package:login/viewsLayout/about/index.dart';
 export 'package:login/viewsLayout/products/index.dart';
 export 'package:login/viewsLayout/layout/index.dart';

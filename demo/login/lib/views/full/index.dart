@@ -110,14 +110,17 @@ class StateFullView extends State<FullView> {
         filter = _data;
       }
     });
-  }   
+  } 
+
   final fieldText = TextEditingController();
+
   void clearText() {
     setState(() {
       fieldText.clear();
       filter = _data;
     });
   }
+  
   @override
   Widget build(BuildContext context) {
     if (filter.isEmpty) {

@@ -1,5 +1,7 @@
 // ignore_for_file: avoid_print
 
+
+// import 'package:login/global/show_toast.dart';
 import 'package:login/layout/index.dart';
 import 'package:login/views/full/details.dart';
 import 'package:login/views/index.dart';
@@ -57,6 +59,7 @@ class FullDetails extends StatelessWidget {
     List<Widget> bodyWidget = [
       FullDetailsView(result),
     ];
+    // ShowToast.showToasts(context);    
     return MyHomePage(
       bodyWidget: bodyWidget,
       bottomNavigationBar: bottomNavigationBar,
