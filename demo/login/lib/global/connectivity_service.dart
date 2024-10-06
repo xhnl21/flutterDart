@@ -1,22 +1,17 @@
-// ignore_for_file: avoid_print
-import 'package:connectivity/connectivity.dart';
-
 class ConnectivityService {
-  static ConnectivityResult? connectionStatus;
-
-  static connectionStatusServise() {
+  static connectionStatusServises(connectionStatus) {
     String value;
     int number;
     switch (connectionStatus) {
-      case ConnectivityResult.wifi:
+      case 'ConnectivityResult.wifi':
         value = 'Connected to WiFi';
         number = 3;
         break;
-      case ConnectivityResult.mobile:
+      case 'ConnectivityResult.mobile':
         value = 'Connected to Mobile Network';
         number = 2;
         break;
-      case ConnectivityResult.none:
+      case 'ConnectivityResult.none':
         value = 'No internet connection';
         number = 1;
         break;
