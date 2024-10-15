@@ -13,6 +13,8 @@ class OptionList extends StatelessWidget {
   static const List<Map<String, dynamic>> listTileOPT = [
     {'title': 'Home', 'icon': Icons.home, 'route':'/Home'},
     {'title': 'About', 'icon': Icons.account_box, 'route':'/About'},
+    {'title': 'Sheet', 'icon': Icons.insert_drive_file_outlined, 'route':'/Sheet'},
+    {'title': 'Badger', 'icon': Icons.account_box, 'route':'/Badger'},    
     {'title': 'Products', 'icon': Icons.grid_3x3_outlined, 'route':'/Products'},
     {'title': 'Layout', 'icon': Icons.contact_mail, 'route':'/Layout'},
     {'title': 'Full', 'icon': Icons.abc_rounded, 'route':'/Full'},

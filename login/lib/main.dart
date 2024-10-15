@@ -1,7 +1,7 @@
 // ignore_for_file: avoid_print
 import 'package:flutter/material.dart';
 import 'package:login/global/connectivity_service.dart';
-import 'package:login/global/notification.dart';
+// import 'package:login/global/notification.dart';
 import 'package:login/router/index.dart';
 import 'package:url_strategy/url_strategy.dart';
 
@@ -12,7 +12,7 @@ import 'package:flutter/services.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  NotificationHelper.init();
+  // NotificationHelper.init();
   setPathUrlStrategy();
   runApp(const MyApp());
 }
@@ -72,7 +72,7 @@ class _MyAppState extends State<MyApp> {
   Future<void> _updateConnectionStatus(List<ConnectivityResult> result) async {
     setState(() {
       _connectionStatus = result;
-      print(_connectionStatus);
+      // print(_connectionStatus);
       final conn = ConnectivityService.connectionStatusServises(_connectionStatus[0].toString());
       _scaffoldMessengerKey.currentState?.showSnackBar(
           SnackBar(

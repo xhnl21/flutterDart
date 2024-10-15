@@ -1,8 +1,9 @@
 #include "flutter_window.h"
-
+// #include "flutter/BadgeManager.h"
 #include <optional>
 
 #include "flutter/generated_plugin_registrant.h"
+// #include <plugin_registrar_windows.h>
 
 FlutterWindow::FlutterWindow(const flutter::DartProject& project)
     : project_(project) {}
@@ -69,3 +70,53 @@ FlutterWindow::MessageHandler(HWND hwnd, UINT const message,
 
   return Win32Window::MessageHandler(hwnd, message, wparam, lparam);
 }
+
+
+
+// void RegisterWithRegistrar(flutter::PluginRegistrarWindows* registrar);
+
+// class BadgePlugin : public flutter::Plugin {
+//  public:
+//   static void RegisterWithRegistrar(flutter::PluginRegistrarWindows* registrar);
+
+//   BadgePlugin();
+
+//   virtual ~BadgePlugin();
+
+//  private:
+//   void HandleMethodCall(
+//       const std::string& method,
+//       const flutter::MethodCall<flutter::EncodableValue>& call,
+//       std::unique_ptr<flutter::MethodResult<flutter::EncodableValue>> result);
+// };
+
+// void BadgePlugin::RegisterWithRegistrar(
+//     flutter::PluginRegistrarWindows* registrar) {
+//   auto plugin = std::make_unique<BadgePlugin>();
+//   registrar->AddPlugin(std::move(plugin));
+// }
+
+// BadgePlugin::BadgePlugin() {}
+
+// BadgePlugin::~BadgePlugin() {}
+
+// void BadgePlugin::HandleMethodCall(
+//     const std::string& method,
+//     const flutter::MethodCall<flutter::EncodableValue>& call,
+//     std::unique_ptr<flutter::MethodResult<flutter::EncodableValue>> result) {
+//   if (method == "updateBadge") {
+//     // Extrae el valor del badge
+//     const auto* args = std::get_if<flutter::EncodableMap>(call.arguments());
+//     if (args) {
+//       auto count = std::get_if<int64_t>(&(*args)["count"]);
+//       if (count) {
+//         BadgeManager::UpdateBadge(*count); // Llama a la función UpdateBadge
+//         result->Success();
+//         return;
+//       }
+//     }
+//     result->Error("INVALID_ARGUMENT", "Expected an integer count.");
+//   } else {
+//     result->NotImplemented();
+//   }
+// }

@@ -23,3 +23,21 @@ https://pokeapi.co/api/v2/pokemon?limit=1302
 
 https://pub.dev/packages/another_flushbar
 https://pub.dev/packages/connectivity_plus
+
+flutter doctor --verbose
+flutter clean
+
+para compilar android
+flutter build apk
+flutter build apk --release
+
+para compilar windows
+dart compile exe lib/main.dart
+
+flutter pub add gsheets
+dart pub add gsheets
+
+flutter pub remove gsheets
+dart pub remove gsheets
+
+Web: Usa flutter run -d chrome o flutter build web para compilar la aplicación.
