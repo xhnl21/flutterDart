@@ -444,18 +444,30 @@ class ImgContentType extends StatelessWidget {
     super.key,
   });
 
+  
   @override
   Widget build(BuildContext context) {
     final listTiles = <Widget>[];
     for (final item in type) {
       final types = TypePokemon.fromJson(item['detail']);
       final img = types.sprites?.generationViii?.swordShield?.nameIcon;
-      listTiles.add(
-        Container(
-          margin: const EdgeInsets.only(left: 3.0),
-          child: Image.network(img!, width: 50, height: 50,),          
-        )        
-      );
+      print(img);
+      print('isNotEmpty');
+      if (img != null) {
+        listTiles.add(
+          Container(
+            margin: const EdgeInsets.only(left: 3.0),
+            child: Image.network(img, width: 50, height: 50,),          
+          )        
+        );      
+      } else {
+        listTiles.add(
+          Container(
+            margin: const EdgeInsets.only(left: 3.0),
+            child: Image.asset('assets/images/notFound.png', width: 50, height: 50,),
+          )
+        );         
+      }
     }
     return Row(
       children: listTiles,
