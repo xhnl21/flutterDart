@@ -26,6 +26,7 @@ https://pub.dev/packages/connectivity_plus
 
 flutter doctor --verbose
 flutter clean
+flutter pub get
 
 para compilar android
 flutter build apk
@@ -41,3 +42,7 @@ flutter pub remove gsheets
 dart pub remove gsheets
 
 Web: Usa flutter run -d chrome o flutter build web para compilar la aplicación.
+
+# Hive
+flutter pub run build_runner clean
+flutter pub run build_runner build

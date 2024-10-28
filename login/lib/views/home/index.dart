@@ -81,7 +81,7 @@ class _HomeScreenState extends State<HomeScreen> {
     int count = await Methods.getAllResques(url);
     counst = count;
     // counst = 1020;
-    counst = 30;
+    counst = 2;
     if (count > 0) {
         var rs = (increment / counst);
         String url = 'https://pokeapi.co/api/v2/pokemon?limit=$counst';
@@ -451,8 +451,8 @@ class ImgContentType extends StatelessWidget {
     for (final item in type) {
       final types = TypePokemon.fromJson(item['detail']);
       final img = types.sprites?.generationViii?.swordShield?.nameIcon;
-      print(img);
-      print('isNotEmpty');
+      // print(img);
+      // print('isNotEmpty');
       if (img != null) {
         listTiles.add(
           Container(
