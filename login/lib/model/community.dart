@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_print, unrelated_type_equality_checks
+// ignore_for_file: avoid_print
 
 import 'package:hive/hive.dart';
 import 'package:path/path.dart';
@@ -18,15 +18,14 @@ class DatabaseHelper {
 
   DatabaseHelper._internal();
 
-  Future<void> initialize() async {
-    Directory appDocDir = Directory.current;
-    var rs = '${appDocDir.path}/hive_export/';
-    
+  Future<void> initialize() async {   
     if (!_isInitialized) {
       if (kIsWeb) {
         // Para la web, no es necesario especificar un directorio
-        Hive.init(rs);
+        Hive.init('demo');
       } else {
+        Directory appDocDir = Directory.current;
+        var rs = '${appDocDir.path}/hive_export/';      
         // Para móvil y escritorio, usa el directorio de documentos
         Hive.init(rs);
       }  
@@ -121,10 +120,6 @@ class DatabaseHelper {
 
     for (var item in data) {
       try {
-        // Imprimir el valor de item[7] para depuración
-        print('Valor original de age: ${item[7]}');
-
-        // Verificar si item[7] es un double y convertirlo a int
         int age = int.parse(item[7].toString()); // Convertir string a int
         var person = Community(
           id: lastId + 1,  // Incrementa el ID
@@ -134,12 +129,12 @@ class DatabaseHelper {
           phone: item[3],
           email: item[4],
           address: item[5],
-          birthdate: item[6],
+          birthdate: item[6].toString(),
           age: age,
         );
 
         await community.add(person);
-        print('Persona añadida: $person');
+        // print('Persona añadida: $person');
         lastId++;  // Asegúrate de incrementar el ID
       } catch (e) {
         print('Error al convertir a int: ${item[7]} - $e');
@@ -157,7 +152,7 @@ Future<void> insert(List<dynamic> data) async {
   }
 
   int lastId = community.isEmpty ? 0 : community.values.last.id;
-  print('Datos recibidos: $data'); // Para depuración
+  // print('Datos recibidos: $data'); // Para depuración
   try { 
     var person = Community(
       id: lastId + 1,  // Incrementa el ID
@@ -171,7 +166,7 @@ Future<void> insert(List<dynamic> data) async {
       age: int.parse(data[7].toString()),
     );
     await community.add(person);
-    print('Persona añadida: $person');
+    // print('Persona añadida: $person');
   } catch (e) {
     print('Error al insertar datos: $data - $e');
   }

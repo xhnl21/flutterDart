@@ -72,7 +72,7 @@ class _MyAppState extends State<MyApp> {
   Future<void> _updateConnectionStatus(List<ConnectivityResult> result) async {
     setState(() {
       _connectionStatus = result;
-      // print(_connectionStatus);
+      print(_connectionStatus);
       final conn = ConnectivityService.connectionStatusServises(_connectionStatus[0].toString());
       _scaffoldMessengerKey.currentState?.showSnackBar(
           SnackBar(

@@ -3,17 +3,6 @@ import 'package:hive/hive.dart';
 part 'model.g.dart'; // Asegúrate de generar el código de Hive
 
 @HiveType(typeId: 0)
-class Product {
-  @HiveField(0)
-  String name;
-
-  @HiveField(1)
-  double price;
-
-  Product({required this.name, required this.price});
-}
-
-@HiveType(typeId: 1)
 class Community {
   @HiveField(0)
   int id;

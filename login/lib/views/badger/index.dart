@@ -33,7 +33,7 @@ class _BadgerScreenState extends State<BadgerScreen> {
   }
   Future<void> loadGsheetData() async {
     try {
-      var fetchedRows = await Gsheet.dataSheet(); // Esperar a que se complete
+      var fetchedRows = await Gsheet.readSheet(); // Esperar a que se complete
       setState(() {
         rows = fetchedRows.cast<List>(); // Actualizar el estado con los datos
         isLoading = false; // Cambiar el estado de carga

@@ -11,6 +11,10 @@ class ConnectivityService {
         value = 'Connected to Mobile Network';
         number = 2;
         break;
+      case 'ConnectivityResult.ethernet':
+        value = 'Connected to Red Network';
+        number = 2;
+        break;        
       case 'ConnectivityResult.none':
         value = 'No internet connection';
         number = 1;

@@ -1,8 +1,7 @@
 // ignore_for_file: file_names, unused_import, avoid_print
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:login/global/gsheet.dart';
-// import 'package:sqflite/sqflite.dart';
-// import 'package:login/global/hive.dart';
 import 'package:login/model/community.dart';
 import 'package:login/model/model.dart';
 class SheetScreen extends StatefulWidget {
@@ -38,7 +37,6 @@ class _SheetScreenState extends State<SheetScreen> {
       });
     });    
     loadData();
-    // loadNotes();
   }
   
   Future<List<Community>> getCommunity() async{
@@ -47,32 +45,9 @@ class _SheetScreenState extends State<SheetScreen> {
       return dbHelper.get();
   }
 
-  void loadNotes() async {
-    await DatabaseHelper().initialize();
-    final dbHelper = DatabaseHelper();
-    // await dbHelper.add('furion1', 2024);
-    // await dbHelper.add('furion2', 2024);
-    // await dbHelper.add('furion3', 2024);
-    // await dbHelper.add('furion4', 2024);
-    // await dbHelper.update(4, 'master', 2024);
-    // await dbHelper.delete(2);
-    var records = dbHelper.get(); // Asegúrate de que este método esté implementado
-    for (var product in records) {
-      print('name: ${product.name}, lname: ${product.lname}');
-    }
-    // await dbHelper.exportHiveDatabase();
-    // await dbHelper.exportDatabaseJSON();
-  }
-
   @override
   void dispose() {
-    // DatabaseHelper().close(); // Cierra la tienda al salir
     super.dispose();
-  }
-
-  Future<void> loadData() async {
-    // DatabaseHelper().clearAllData();
-    await loadGsheetData();
   }
 
   Future<String> _selectDate(BuildContext context) async {
@@ -91,136 +66,6 @@ class _SheetScreenState extends State<SheetScreen> {
     return '';
   }
 
-  Future<void> modalAdd(BuildContext context) async {
-    String title = 'Add Data';
-    String content = 'Data successfully add';
-    dynamic color = Colors.green;
-    final TextEditingController nameController = TextEditingController();
-    final TextEditingController lnameController = TextEditingController();
-    final TextEditingController ciController = TextEditingController();
-    final TextEditingController phoneController = TextEditingController();
-    final TextEditingController emailController = TextEditingController();
-    final TextEditingController addressController = TextEditingController();
-    final TextEditingController birthdateController = TextEditingController();
-    final TextEditingController ageController = TextEditingController();
-
-    return showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(title),
-          content: Column(
-            children: [
-                TextField(
-                  controller: nameController,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: 'Nombre',
-                  ),
-                ),
-                const SizedBox(height: 16),
-                TextField(
-                  controller: lnameController,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: 'Apellido',
-                  ),
-                ),
-                const SizedBox(height: 16),
-                TextField(
-                  controller: ciController,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: 'Cédula de Identidad',
-                  ),
-                ),
-                const SizedBox(height: 16),
-                TextField(
-                  controller: phoneController,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: 'Teléfono',
-                  ),
-                ),
-                const SizedBox(height: 16),
-                TextField(
-                  controller: addressController,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: 'Dirección',
-                  ),
-                ),
-                const SizedBox(height: 16),
-                TextField(
-                  controller: emailController,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: 'Correo Electrónico',
-                  ),
-                ),
-                const SizedBox(height: 16),
-                TextField(
-                  controller: birthdateController,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: 'Fecha de Nacimiento',
-                  ),
-                  readOnly: true, // Hace que el campo sea solo lectura
-                  onTap: () async {
-                      String? date = await _selectDate(context);
-                      if (date.isNotEmpty) {
-                        birthdateController.text = date; // Actualiza el controlador con la fecha seleccionada
-                      }
-                  }, // Muestra el calendario al tocar el campo                  
-                ),
-                const SizedBox(height: 16),
-                TextField(
-                  controller: ageController,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: 'Edad',
-                  ),
-                  keyboardType: TextInputType.number,
-                ),             
-            ],
-          ),
-          actions: <Widget>[
-            TextButton(
-              style: TextButton.styleFrom(
-                textStyle: Theme.of(context).textTheme.labelLarge,
-              ),
-              child: const Text('Cancelar'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            TextButton(
-              style: TextButton.styleFrom(
-                textStyle: Theme.of(context).textTheme.labelLarge,
-              ),
-              child: const Text('Aceptar'),
-              onPressed: () {
-                  List<dynamic> addData = [
-                    nameController.text,
-                    lnameController.text,
-                    ciController.text,
-                    phoneController.text,
-                    emailController.text,
-                    addressController.text,
-                    birthdateController.text,
-                    int.tryParse(ageController.text) ?? 0, // Asegúrate de convertir edad a int
-                  ];                
-                  addHide(addData);
-                _showToast(context, content, color);
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
-
   Future<void> modal(BuildContext context, form, rows, index) async {
     String title = 'Delete Data';
     String content = 'Data successfully deleted';
@@ -232,8 +77,7 @@ class _SheetScreenState extends State<SheetScreen> {
     } else if (form == 3) {
       title = 'Add Data';
       content = 'Data successfully add';
-      color = Colors.green;    
-      print(233);
+      color = Colors.green;
     }
 
     final TextEditingController nameController = TextEditingController();
@@ -244,107 +88,41 @@ class _SheetScreenState extends State<SheetScreen> {
     final TextEditingController addressController = TextEditingController();
     final TextEditingController birthdateController = TextEditingController();
     final TextEditingController ageController = TextEditingController();
+    final formKey = GlobalKey<FormState>();
+
     int ids = 0;
     if (rows.isNotEmpty) {
       ids = rows[0];
-      nameController.value = rows[1];
-      lnameController.value = rows[2];
-      ciController.value = rows[3];
-      phoneController.value = rows[4];
-      emailController.value = rows[5];
-      addressController.value = rows[6];
-      birthdateController.value = rows[7];
-      ageController.value = rows[8].toString() as TextEditingValue;
+      nameController.text = rows[1].toString();
+      lnameController.text = rows[2].toString();
+      ciController.text = rows[3].toString();
+      phoneController.text = rows[4].toString();
+      emailController.text = rows[5].toString();
+      addressController.text = rows[6].toString();
+      birthdateController.text = rows[7].toString();
+      ageController.text = rows[8].toString();
     }
-    print(title);
-    print(content);
-    print(color);
-    print(rows);
-    print(ids);
-
     return showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text(title),
-          content: Column(
-            children: [
-                Text(
-                  'id: $ids \n'
+          content
+            : form == 1
+            ? const Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text('Esta seguro que desea eliminar este dato?')
+                ]
+              )
+            : Form(
+              key: formKey,
+              child: 
+                formValidation(
+                  nameController, lnameController, ciController, phoneController, 
+                  addressController, emailController, birthdateController, ageController, context
                 ),
-                TextField(
-                  controller: nameController,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: 'Nombre',
-                  ),
-                ),
-                const SizedBox(height: 16),
-                TextField(
-                  controller: lnameController,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: 'Apellido',
-                  ),
-                ),
-                const SizedBox(height: 16),
-                TextField(
-                  controller: ciController,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: 'Cédula de Identidad',
-                  ),
-                ),
-                const SizedBox(height: 16),
-                TextField(
-                  controller: phoneController,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: 'Teléfono',
-                  ),
-                ),
-                const SizedBox(height: 16),
-                TextField(
-                  controller: addressController,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: 'Dirección',
-                  ),
-                ),
-                const SizedBox(height: 16),
-                TextField(
-                  controller: emailController,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: 'Correo Electrónico',
-                  ),
-                ),
-                const SizedBox(height: 16),
-                TextField(
-                  controller: birthdateController,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: 'Fecha de Nacimiento',
-                  ),
-                  readOnly: true, // Hace que el campo sea solo lectura
-                  onTap: () async {
-                      String? date = await _selectDate(context);
-                      if (date.isNotEmpty) {
-                        birthdateController.text = date; // Actualiza el controlador con la fecha seleccionada
-                      }
-                  }, // Muestra el calendario al tocar el campo                  
-                ),
-                const SizedBox(height: 16),
-                TextField(
-                  controller: ageController,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: 'Edad',
-                  ),
-                  keyboardType: TextInputType.number,
-                ),             
-            ],
-          ),
+              ),
           actions: <Widget>[
             TextButton(
               style: TextButton.styleFrom(
@@ -355,45 +133,66 @@ class _SheetScreenState extends State<SheetScreen> {
                 Navigator.of(context).pop();
               },
             ),
-            TextButton(
-              style: TextButton.styleFrom(
-                textStyle: Theme.of(context).textTheme.labelLarge,
-              ),
-              child: const Text('Aceptar'),
-              onPressed: () {
-                if (form == 1) {           
-                  List<List<dynamic>> rowss= [rows];
-                  removeData(rowss);
-                  revomeHide(ids, index);
-                } else if (form == 0) {
-                  List<dynamic> updateData = [
-                    ids,
-                    nameController.text,
-                    lnameController.text,
-                    ciController.text,
-                    phoneController.text,
-                    emailController.text,
-                    addressController.text,
-                    birthdateController.text,
-                    int.tryParse(ageController.text) ?? 0, // Asegúrate de convertir edad a int
-                  ];
-                  updateHide(updateData, index);
-                } else {
-                  List<dynamic> addData = [
-                    nameController.text,
-                    lnameController.text,
-                    ciController.text,
-                    phoneController.text,
-                    emailController.text,
-                    addressController.text,
-                    birthdateController.text,
-                    int.tryParse(ageController.text) ?? 0, // Asegúrate de convertir edad a int
-                  ];
-                  addHide(addData);                
-                }
-                _showToast(context, content, color);
-                Navigator.of(context).pop();
+            FilledButton(
+              style
+              : form == 1
+              ? ButtonStyle(
+                  backgroundColor: WidgetStateProperty.resolveWith<Color?>(
+                    (Set<WidgetState> states) {
+                      if (states.contains(WidgetState.pressed)) {
+                        return Colors.red.withOpacity(0.7);
+                      }
+                      return Colors.red;
+                    },
+                  ),
+                )
+              : ButtonStyle(
+                  backgroundColor: WidgetStateProperty.resolveWith<Color?>(
+                    (Set<WidgetState> states) {
+                      if (states.contains(WidgetState.pressed)) {
+                        return Colors.green.withOpacity(0.7);
+                      }
+                      return Colors.green;
+                    },
+                  ),
+                ),
+              onPressed: (){
+                if (formKey.currentState!.validate()) {
+                  if (form == 1) {
+                    List<List<dynamic>> rowss= [rows];
+                    removeData(rowss);
+                    revomeHide(ids, index);
+                  } else if (form == 0) {
+                    List<dynamic> updateData = [
+                      ids,
+                      nameController.text,
+                      lnameController.text,
+                      ciController.text,
+                      phoneController.text,
+                      emailController.text,
+                      addressController.text,
+                      birthdateController.text,
+                      int.tryParse(ageController.text) ?? 0, // Asegúrate de convertir edad a int
+                    ];
+                    updateHide(updateData, index);
+                  } else {
+                    List<dynamic> addData = [
+                      nameController.text,
+                      lnameController.text,
+                      ciController.text,
+                      phoneController.text,
+                      emailController.text,
+                      addressController.text,
+                      birthdateController.text,
+                      int.tryParse(ageController.text) ?? 0, // Asegúrate de convertir edad a int
+                    ];
+                    addHide(addData);                
+                  }
+                  _showToast(context, content, color);
+                  Navigator.of(context).pop();
+                } 
               },
+              child: const Text('Aceptar')
             ),
           ],
         );
@@ -401,10 +200,60 @@ class _SheetScreenState extends State<SheetScreen> {
     );
   }
 
+  Column formValidation(
+      TextEditingController nameController, TextEditingController lnameController, TextEditingController ciController, 
+      TextEditingController phoneController, TextEditingController addressController, TextEditingController emailController, 
+      TextEditingController birthdateController, TextEditingController ageController, BuildContext context
+    ) {
+    return Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                    buildTextField('Nombre', nameController, 'Por favor, ingrese un nombre.'),
+                    buildTextField('Apellido', lnameController, 'Por favor, ingrese un apellido.'),
+                    buildTextFieldNumber('Cédula de Identidad', ciController, 'Por favor, ingrese una CI.'),
+                    buildTextFieldNumber('Teléfono', phoneController, 'Por favor, ingrese una teléfono.'),
+                    buildTextField('Dirección', addressController, 'Por favor, ingrese una dirección.'),
+                    buildTextFieldEmail('Correo Electrónico', emailController, 'Por favor, ingrese un Correo.'),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                      child:  TextFormField(
+                        controller: birthdateController,
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                          hintText: 'Fecha de Nacimiento.',
+                          isDense: true,
+                          contentPadding: EdgeInsets.all(8.0),
+                        ),
+                        readOnly: true, // Hace que el campo sea solo lectura
+                        onTap: () async {
+                            String? date = await _selectDate(context);
+                            if (date.isNotEmpty) {
+                              birthdateController.text = date;
+                            }
+                        }, 
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Por favor, ingrese una Fecha.';
+                          }
+                          return null;
+                        },
+                      ),
+                    ),
+                    buildTextFieldNumber('Edad', ageController, 'Por favor, ingrese una edad.'),
+                ],
+              );
+  }
+
+  Future<void> loadData() async {
+    // DatabaseHelper().clearAllData();
+    await loadGsheetData();
+  }
+
   addHide(add) async {
     final dbHelper = DatabaseHelper();
     await dbHelper.initialize();
     await dbHelper.insert(add);
+    await Gsheet.insertSheet(add, filter.length + 2);
     loadGsheetData();
   }
 
@@ -412,6 +261,7 @@ class _SheetScreenState extends State<SheetScreen> {
     final dbHelper = DatabaseHelper();
     await dbHelper.initialize();
     await dbHelper.update(rows, index);
+    await Gsheet.updateSheet(rows, index + 2);
     loadGsheetData();
   }  
 
@@ -419,6 +269,7 @@ class _SheetScreenState extends State<SheetScreen> {
     final dbHelper = DatabaseHelper();
     await dbHelper.initialize();
     await dbHelper.delete(ids, index);
+    await Gsheet.deleteSheet(index + 2);
     loadGsheetData();
   }
 
@@ -430,7 +281,8 @@ class _SheetScreenState extends State<SheetScreen> {
 
   Future<void> loadGsheetData() async {
     try {
-      var fetchedRows = await Gsheet.dataSheet(); // Esperar a que se complete
+      var fetchedRows = await Gsheet.readSheet(); // Esperar a que se complete
+      await DatabaseHelper().initialize();
       List<Community> rs = DatabaseHelper().get(); // Esperar a que se complete y obtener una lista de `Community`
       // Convertimos `rs` a una lista de listas dinámicas (o mapas) para que sea compatible
       List<List<dynamic>> rsAsList = rs.map((community) => [
@@ -505,7 +357,7 @@ class _SheetScreenState extends State<SheetScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: isLoading
-          ? const Center(child: CircularProgressIndicator())
+          ? circularProgressIndicator()
           : Stack(
               children: [
                 ListView(
@@ -539,6 +391,8 @@ class _SheetScreenState extends State<SheetScreen> {
             ),
       );
   }
+
+  Center circularProgressIndicator() => const Center(child: CircularProgressIndicator());
 
   Container methodInteractiveViewer(BuildContext context) {
     return 
@@ -631,7 +485,6 @@ class _SheetScreenState extends State<SheetScreen> {
         onPanUpdate: _onDragUpdate, // Maneja el movimiento
         child: FloatingActionButton(
           onPressed: () {
-            // modalAdd(context); 
             modal(context, 3, [], 0);
           },             
           tooltip: 'Agregar Registro',
@@ -651,4 +504,78 @@ class _SheetScreenState extends State<SheetScreen> {
       ),
     );
   }  
+
+
+  Widget buildTextField(String hint, TextEditingController controller, String errorMsg, {bool isNumber = false}) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: 
+          TextFormField(
+          controller: controller,
+          decoration: InputDecoration(
+            isDense: true,
+            border: const OutlineInputBorder(),
+            hintText: hint,
+            contentPadding: const EdgeInsets.all(8.0),
+          ),
+          keyboardType: isNumber ? TextInputType.number : TextInputType.text,
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return errorMsg;
+            }        
+            return null;
+          },
+        ),
+    );
+  }
+
+  Widget buildTextFieldEmail(String hint, TextEditingController controller, String errorMsg, {bool isNumber = false}) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: 
+          TextFormField(
+          controller: controller,
+          decoration: InputDecoration(
+            isDense: true,
+            border: const OutlineInputBorder(),
+            hintText: hint,
+            contentPadding: const EdgeInsets.all(8.0),
+          ),
+          keyboardType: isNumber ? TextInputType.number : TextInputType.text,
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return errorMsg;
+            }
+            final emailRegex = RegExp(r'^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$');
+            if (!emailRegex.hasMatch(value)) {
+              return 'Por favor, ingrese un correo válido.';
+            }            
+            return null;
+          },
+        ),
+    );
+  }
+
+  Widget buildTextFieldNumber(String hintText, TextEditingController controller, String validationMessage) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+        child: TextFormField(
+        controller: controller,
+        decoration: InputDecoration(
+          border: const OutlineInputBorder(),
+          hintText: hintText,
+          isDense: true,
+          contentPadding: const EdgeInsets.all(8.0),
+        ),
+        keyboardType: TextInputType.number, // Teclado numérico
+        inputFormatters: [FilteringTextInputFormatter.digitsOnly], // Permitir solo dígitos
+        validator: (value) {
+          if (value == null || value.isEmpty) {
+            return validationMessage;
+          }
+          return null;
+        },
+      )
+    );
+  }
 }
