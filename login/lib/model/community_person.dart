@@ -1,9 +1,9 @@
+// ignore: file_names
 // ignore_for_file: avoid_print
 
 import 'package:hive/hive.dart';
 import 'package:path/path.dart';
 import 'model.dart';
-// import 'package:path_provider/path_provider.dart';
 import 'dart:io';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
@@ -11,7 +11,7 @@ class DatabaseHelper {
   static final DatabaseHelper _instance = DatabaseHelper._internal();
   late final Box<Community> _productBox;
   bool _isInitialized = false;
-
+  final String _box = "community";
   factory DatabaseHelper() {
     return _instance;
   }
@@ -22,7 +22,7 @@ class DatabaseHelper {
     if (!_isInitialized) {
       if (kIsWeb) {
         // Para la web, no es necesario especificar un directorio
-        Hive.init('demo');
+        Hive.init(_box);
       } else {
         Directory appDocDir = Directory.current;
         var rs = '${appDocDir.path}/hive_export/';      
@@ -31,14 +31,14 @@ class DatabaseHelper {
       }  
       
       Hive.registerAdapter(CommunityAdapter()); // Registra el adaptador
-      _productBox = await Hive.openBox<Community>('community');
+      _productBox = await Hive.openBox<Community>(_box);
 
       // Validar si la caja está vacía
       if (_productBox.isEmpty) {
         print('La caja está vacía.'); // O realiza alguna acción específica
         // Aquí puedes inicializar datos predeterminados si es necesario
       } else {
-        print('La caja contiene datos.');
+        // print('La caja contiene datos.');
       }
 
       _isInitialized = true; // Marcar como inicializado
@@ -56,7 +56,7 @@ class DatabaseHelper {
   }
 
   Future<bool> checkIfBoxIsEmpty() async {
-    return await isHiveBoxEmpty('community');
+    return await isHiveBoxEmpty(_box);
   }
 
   Future<void> exportHiveDatabase() async {
@@ -64,7 +64,7 @@ class DatabaseHelper {
     String hiveDirPath = appDocDir.path; // Ruta completa del archivo
 
     // Nombre del archivo de la caja de Hive
-    String hiveFileName = 'demo.hive'; // Cambia esto al nombre de tu caja
+    String hiveFileName = '$_box.hive'; // Cambia esto al nombre de tu caja
     String hiveFilePath = join(hiveDirPath, hiveFileName);
 
     // Define la ruta de destino para la exportación
@@ -115,7 +115,7 @@ class DatabaseHelper {
   }
 
   Future<void> insertData(data) async {
-    var community = Hive.box<Community>('community');
+    var community = Hive.box<Community>(_box);
     int lastId = community.isEmpty ? 0 : community.values.last.id;
 
     for (var item in data) {
@@ -142,35 +142,35 @@ class DatabaseHelper {
     }
   }
 
-Future<void> insert(List<dynamic> data) async {
-  var community = Hive.box<Community>('community');
-  
-  // Verificación de la longitud de data
-  if (data.length < 8) {
-    print('Error: Datos insuficientes. Se esperaban al menos 9 elementos, pero se recibieron ${data.length}.');
-    return; // Salir del método si no hay suficientes datos
-  }
+  Future<void> insert(List<dynamic> data) async {
+    var community = Hive.box<Community>(_box);
+    
+    // Verificación de la longitud de data
+    if (data.length < 8) {
+      print('Error: Datos insuficientes. Se esperaban al menos 9 elementos, pero se recibieron ${data.length}.');
+      return; // Salir del método si no hay suficientes datos
+    }
 
-  int lastId = community.isEmpty ? 0 : community.values.last.id;
-  // print('Datos recibidos: $data'); // Para depuración
-  try { 
-    var person = Community(
-      id: lastId + 1,  // Incrementa el ID
-      name: data[0].toString(),
-      lname: data[1].toString(),
-      ci: data[2].toString(),
-      phone: data[3].toString(),
-      email: data[4].toString(),
-      address: data[5].toString(),
-      birthdate: data[6].toString(),
-      age: int.parse(data[7].toString()),
-    );
-    await community.add(person);
-    // print('Persona añadida: $person');
-  } catch (e) {
-    print('Error al insertar datos: $data - $e');
+    int lastId = community.isEmpty ? 0 : community.values.last.id;
+    // print('Datos recibidos: $data'); // Para depuración
+    try { 
+      var person = Community(
+        id: lastId + 1,  // Incrementa el ID
+        name: data[0].toString(),
+        lname: data[1].toString(),
+        ci: data[2].toString(),
+        phone: data[3].toString(),
+        email: data[4].toString(),
+        address: data[5].toString(),
+        birthdate: data[6].toString(),
+        age: int.parse(data[7].toString()),
+      );
+      await community.add(person);
+      // print('Persona añadida: $person');
+    } catch (e) {
+      print('Error al insertar datos: $data - $e');
+    }
   }
-}
 
   Future<void> update(List<dynamic> data, int index) async {
     Community? product;
@@ -207,7 +207,7 @@ Future<void> insert(List<dynamic> data) async {
 
   Future<void> clearAllData() async {
     await initialize();
-    var communityBox = Hive.box<Community>('community');
+    var communityBox = Hive.box<Community>(_box);
     
     // Elimina todos los datos de la caja
     await communityBox.clear();

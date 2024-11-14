@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_print
 import 'package:flutter/material.dart';
 import 'package:login/global/connectivity_service.dart';
+// import 'package:login/global/open_hive.dart';
 // import 'package:login/global/notification.dart';
 import 'package:login/router/index.dart';
 import 'package:url_strategy/url_strategy.dart';
@@ -9,10 +10,10 @@ import 'dart:async';
 import 'dart:developer' as developer;
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/services.dart';
-
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   // NotificationHelper.init();
+  // OpenHive.init();
   setPathUrlStrategy();
   runApp(const MyApp());
 }
@@ -36,7 +37,6 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     _router = MainGoRouter(); // Inicializar el enrutador
-
     initConnectivity();
     _connectivitySubscription =
     _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
@@ -69,10 +69,9 @@ class _MyAppState extends State<MyApp> {
     return _updateConnectionStatus(result);
   }
 
-  Future<void> _updateConnectionStatus(List<ConnectivityResult> result) async {
+  Future<void> _updateConnectionStatus(List<ConnectivityResult> result) async {      
     setState(() {
       _connectionStatus = result;
-      print(_connectionStatus);
       final conn = ConnectivityService.connectionStatusServises(_connectionStatus[0].toString());
       _scaffoldMessengerKey.currentState?.showSnackBar(
           SnackBar(

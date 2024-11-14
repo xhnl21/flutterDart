@@ -46,3 +46,6 @@ Web: Usa flutter run -d chrome o flutter build web para compilar la aplicación.
 # Hive
 flutter pub run build_runner clean
 flutter pub run build_runner build
+
+dart run build_runner clean
+dart run build_runner build

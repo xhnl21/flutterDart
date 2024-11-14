@@ -5,6 +5,8 @@ import 'package:login/router/home/index.dart';
 import 'package:login/router/about/index.dart';
 import 'package:login/router/badger/index.dart';
 import 'package:login/router/sheet/index.dart';
+import 'package:login/router/history_sheet/index.dart';
+import 'package:login/router/create_sheet/index.dart';
 import 'package:login/router/products/index.dart';
 import 'package:login/router/login/index.dart';
 import 'package:login/router/user/index.dart';
@@ -43,6 +45,8 @@ class MainGoRouter {
     final routeAbout = RouteAbout.getRoutes();
     final routeBadger = RouteBadger.getRoutes();
     final routeSheet = RouteSheet.getRoutes();
+    final routeHistorySheet = RouteHistorySheet.getRoutes();
+    final routeCreateSheet = RouteCreateSheet.getRoutes();
     final routeProducts = RouteProducts.getRoutes();
     final routeLogin = RouteLogin.getRoutes();
     final routeUser = RouteUser.getRoutes();
@@ -52,7 +56,7 @@ class MainGoRouter {
         ...routeLayout, ...routeHome, ...routeAbout, 
         ...routeProducts, ...routeLogin, ...routeUser, 
         ...routePluss, ...routeFull, ...routeBadger,
-        ...routeSheet,
+        ...routeSheet, ...routeHistorySheet, ...routeCreateSheet,
     ];
     final GoRouter appRouterFurion = GoRouter(
         // debugLogDiagnostics: false,

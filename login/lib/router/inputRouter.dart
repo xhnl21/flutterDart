@@ -18,6 +18,8 @@ export 'package:login/viewsLayout/home/details.dart';
 export 'package:login/viewsLayout/about/index.dart';
 export 'package:login/viewsLayout/badger/index.dart';
 export 'package:login/viewsLayout/sheet/index.dart';
+export 'package:login/viewsLayout/history_sheet/index.dart';
+export 'package:login/viewsLayout/create_sheet/index.dart';
 export 'package:login/viewsLayout/products/index.dart';
 export 'package:login/viewsLayout/layout/index.dart';
 export 'package:login/viewsLayout/full/index.dart';

@@ -2,6 +2,8 @@ export 'package:login/views/home/index.dart';
 export 'package:login/views/about/index.dart';
 export 'package:login/views/badger/index.dart';
 export 'package:login/views/sheet/index.dart';
+export 'package:login/views/create_sheet/index.dart';
+export 'package:login/views/history_sheet/index.dart';
 export 'package:login/views/products/index.dart';
 export 'package:login/views/layout/index.dart';
 export 'package:login/views/login/login.dart';

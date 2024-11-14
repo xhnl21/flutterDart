@@ -1,12 +1,12 @@
 // ignore_for_file: file_names, unused_import, avoid_print
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:login/global/gsheet.dart';
-import 'package:login/model/community_person.dart';
+import 'package:login/global/create_gsheets.dart';
+import 'package:login/model/create_sheet.dart';
 import 'package:login/model/model.dart';
-import 'package:login/model/offline_action.dart';
-class SheetScreen extends StatefulWidget {
-  const SheetScreen({super.key});
+// import 'package:login/model/offline_action.dart';
+class CreateSheetScreen extends StatefulWidget {
+  const CreateSheetScreen({super.key});
   static const List<Map<String, dynamic>> bottomNavigationBar = [
     {'label': 'Home', 'icon': Icons.home, 'iconActive': Icons.person_off, 'route':'/Home'},
     {'label': 'Users', 'icon': Icons.person, 'iconActive': Icons.person_off, 'route':'/User'},
@@ -14,17 +14,20 @@ class SheetScreen extends StatefulWidget {
   ];
   
   @override
-  State<SheetScreen> createState() => _SheetScreenState();
+  State<CreateSheetScreen> createState() => _CreateSheetScreenState();
 }
 
-class _SheetScreenState extends State<SheetScreen> {
+class _CreateSheetScreenState extends State<CreateSheetScreen> {
   List<List<dynamic>>? data; // Para almacenar los datos
   bool isLoading = true; // Para mostrar el estado de carga
   List<String> head = [];
   List<List<dynamic>>? heads; // Para almacenar los datos
   List<List<dynamic>> filter = []; // Cambiar a lista de listas dinámicas
   late Offset fabOffset; // Offset para la posición del FAB
-
+  bool isCheckedPDF = false;
+  bool isCheckedEXCEL = false;
+  bool isCheckedBD = false;
+  
   @override
   void initState() {
     super.initState();
@@ -40,31 +43,9 @@ class _SheetScreenState extends State<SheetScreen> {
     loadData();
   }
   
-  Future<List<Community>> getCommunity() async{
-      await DatabaseHelper().initialize();
-      final dbHelper = DatabaseHelper();
-      return dbHelper.get();
-  }
-
   @override
   void dispose() {
     super.dispose();
-  }
-
-  Future<String> _selectDate(BuildContext context) async {
-    final DateTime? pickedDate = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(1800),
-      lastDate: DateTime(2101),
-    );
-
-    if (pickedDate != null) {
-      // Formatear la fecha como 'dd/MM/yyyy' o el formato que prefieras
-      String formattedDate = "${pickedDate.day}/${pickedDate.month}/${pickedDate.year}";
-      return formattedDate; // Establece la fecha en el controlador
-    }
-    return '';
   }
 
   Future<void> modal(BuildContext context, form, rows, index) async {
@@ -81,31 +62,36 @@ class _SheetScreenState extends State<SheetScreen> {
       color = Colors.green;
     }
 
-    final TextEditingController nameController = TextEditingController();
-    final TextEditingController lnameController = TextEditingController();
     final TextEditingController ciController = TextEditingController();
-    final TextEditingController phoneController = TextEditingController();
     final TextEditingController emailController = TextEditingController();
-    final TextEditingController addressController = TextEditingController();
-    final TextEditingController birthdateController = TextEditingController();
-    final TextEditingController ageController = TextEditingController();
+
+    final TextEditingController descriptionController = TextEditingController();
+    final TextEditingController rolController = TextEditingController();
+    final TextEditingController nameSheetController = TextEditingController();
+
+    final TextEditingController expPDFController = TextEditingController();
+    final TextEditingController expEXCELController = TextEditingController();
+    final TextEditingController expDBController = TextEditingController();
+    // final TextEditingController birthdateController = TextEditingController();
+    // final TextEditingController ageController = TextEditingController();
     final formKey = GlobalKey<FormState>();
 
     int ids = 0;
     if (rows.isNotEmpty) {
       ids = rows[0];
-      nameController.text = rows[1].toString();
-      lnameController.text = rows[2].toString();
       ciController.text = rows[3].toString();
-      phoneController.text = rows[4].toString();
       emailController.text = rows[5].toString();
-      addressController.text = rows[6].toString();
-      birthdateController.text = rows[7].toString();
-      ageController.text = rows[8].toString();
+      descriptionController.text = rows[1].toString();  
+      rolController.text = rows[2].toString();
+      nameSheetController.text = rows[4].toString();
+
+      expPDFController.text = rows[6].toString();
+      expEXCELController.text = rows[7].toString();
+      expDBController.text = rows[8].toString();
     }
     return showDialog(
       context: context,
-      builder: (BuildContext context) {
+      builder: (BuildContext context, ) {
         return AlertDialog(
           title: Text(title),
           content
@@ -120,8 +106,8 @@ class _SheetScreenState extends State<SheetScreen> {
               key: formKey,
               child: 
                 formValidation(
-                  nameController, lnameController, ciController, phoneController, 
-                  addressController, emailController, birthdateController, ageController, context
+                  ciController, emailController, descriptionController, rolController, 
+                  nameSheetController, expPDFController, expEXCELController, expDBController, context
                 ),
               ),
           actions: <Widget>[
@@ -167,26 +153,26 @@ class _SheetScreenState extends State<SheetScreen> {
                     if (form == 0) {
                       List<dynamic> updateData = [
                         ids,
-                        nameController.text,
-                        lnameController.text,
                         ciController.text,
-                        phoneController.text,
                         emailController.text,
-                        addressController.text,
-                        birthdateController.text,
-                        int.tryParse(ageController.text) ?? 0, // Asegúrate de convertir edad a int
+                        descriptionController.text,
+                        rolController.text,
+                        nameSheetController.text,
+                        expPDFController.text,
+                        expEXCELController.text,
+                        expDBController.text,
                       ];
                       updateHide(updateData, index);
                     } else {
                       List<dynamic> addData = [
-                        nameController.text,
-                        lnameController.text,
                         ciController.text,
-                        phoneController.text,
                         emailController.text,
-                        addressController.text,
-                        birthdateController.text,
-                        int.tryParse(ageController.text) ?? 0, // Asegúrate de convertir edad a int
+                        descriptionController.text,
+                        rolController.text,
+                        nameSheetController.text,
+                        expPDFController.text,
+                        expEXCELController.text,
+                        expDBController.text,
                       ];
                       addHide(addData);                
                     }
@@ -203,48 +189,56 @@ class _SheetScreenState extends State<SheetScreen> {
     );
   }
 
-  Column formValidation(
-      TextEditingController nameController, TextEditingController lnameController, TextEditingController ciController, 
-      TextEditingController phoneController, TextEditingController addressController, TextEditingController emailController, 
-      TextEditingController birthdateController, TextEditingController ageController, BuildContext context
+  Widget formValidation(
+      TextEditingController ciController, TextEditingController emailController, TextEditingController descriptionController, 
+      TextEditingController rolController, TextEditingController nameSheetController, TextEditingController expPDFController, 
+      TextEditingController expEXCELController, TextEditingController expDBController, BuildContext context
     ) {
-    return Column(
+    return StatefulBuilder(builder: (context, setStateW) {
+      return Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                    buildTextField('Nombre', nameController, 'Por favor, ingrese un nombre.'),
-                    buildTextField('Apellido', lnameController, 'Por favor, ingrese un apellido.'),
-                    buildTextFieldNumber('Cédula de Identidad', ciController, 'Por favor, ingrese una CI.'),
-                    buildTextFieldNumber('Teléfono', phoneController, 'Por favor, ingrese una teléfono.'),
-                    buildTextField('Dirección', addressController, 'Por favor, ingrese una dirección.'),
+                    buildTextField('Cédula', ciController, 'Por favor, ingrese un cédula.'),
                     buildTextFieldEmail('Correo Electrónico', emailController, 'Por favor, ingrese un Correo.'),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8.0),
-                      child:  TextFormField(
-                        controller: birthdateController,
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          hintText: 'Fecha de Nacimiento.',
-                          isDense: true,
-                          contentPadding: EdgeInsets.all(8.0),
-                        ),
-                        readOnly: true, // Hace que el campo sea solo lectura
-                        onTap: () async {
-                            String? date = await _selectDate(context);
-                            if (date.isNotEmpty) {
-                              birthdateController.text = date;
-                            }
-                        }, 
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Por favor, ingrese una Fecha.';
-                          }
-                          return null;
-                        },
-                      ),
+                    buildTextField('Description', descriptionController, 'Por favor, ingrese un descripcion.'),
+                    buildTextField('Rol', rolController, 'Por favor, ingrese un rol.'),
+                    buildTextField('Nombre de la Hoja', nameSheetController, 'Por favor, ingrese un nombre de la Hoja.'),
+                    // buildTextField('Exportar PDF', expPDFController, 'Por favor, ingrese una dirección.'),
+                    // buildTextField('Exportar EXCEL', expDBController, 'Por favor, ingrese una dirección.'),
+                    // buildTextField('Exportar BD', expDBController, 'Por favor, ingrese una dirección.'),
+                    CheckboxListTile(
+                      title: const Text('Exportar PDF'),
+                      value: isCheckedPDF,
+                      onChanged: (value) {
+                        setStateW(() {
+                          print(value);
+                          isCheckedPDF = value ?? false;
+                        });
+                      },
                     ),
-                    buildTextFieldNumber('Edad', ageController, 'Por favor, ingrese una edad.'),
+                    CheckboxListTile(
+                      title: const Text('Exportar EXCEL'),
+                      value: isCheckedEXCEL,
+                      onChanged: (value) {
+                        setStateW(() {
+                          print(value);
+                          isCheckedEXCEL = value ?? false;
+                        });
+                      },
+                    ),
+                    CheckboxListTile(
+                      title: const Text('Exportar BD'),
+                      value: isCheckedBD,
+                      onChanged: (value) {
+                        setStateW(() {
+                          print(value);
+                          isCheckedBD = value ?? false;
+                        });
+                      },
+                    ),
                 ],
               );
+    },);
   }
 
   Future<void> loadData() async {
@@ -254,26 +248,26 @@ class _SheetScreenState extends State<SheetScreen> {
   }
 
   addHide(add) async {
-    final dbHelper = DatabaseHelper();
+    final dbHelper = CreateSheets();
     await dbHelper.initialize();
     await dbHelper.insert(add);
-    await Gsheet.insertSheet(add, filter.length + 2);
+    await GsheetCreate.insertSheet(add, filter.length + 2);
     loadGsheetData();
   }
 
   updateHide(rows, index) async {
-    final dbHelper = DatabaseHelper();
+    final dbHelper = CreateSheets();
     await dbHelper.initialize();
     await dbHelper.update(rows, index);
-    await Gsheet.updateSheet(rows, index + 2);
+    await GsheetCreate.updateSheet(rows, index + 2);
     loadGsheetData();
   }  
 
   revomeHide(ids, index) async {
-    final dbHelper = DatabaseHelper();
+    final dbHelper = CreateSheets();
     await dbHelper.initialize();
     await dbHelper.delete(ids, index);
-    await Gsheet.deleteSheet(index + 2);
+    await GsheetCreate.deleteSheet(index + 2);
     loadGsheetData();
   }
 
@@ -285,28 +279,29 @@ class _SheetScreenState extends State<SheetScreen> {
 
   Future<void> loadGsheetData() async {
     try {
-      var fetchedRows = await Gsheet.readSheet(); // Esperar a que se complete
-      await DatabaseHelper().initialize();
-      List<Community> rs = DatabaseHelper().get(); // Esperar a que se complete y obtener una lista de `Community`
-      // Convertimos `rs` a una lista de listas dinámicas (o mapas) para que sea compatible
+      var fetchedRows = await GsheetCreate.readSheet(); // Esperar a que se complete
+      await CreateSheets().initialize();
+      List<Createsheet> rs = await  CreateSheets().get();
       List<List<dynamic>> rsAsList = rs.map((community) => [
         community.id,
-        community.name,
-        community.lname,
-        community.ci,
-        community.phone,
+        community.cedula,
         community.email,
-        community.address,
-        community.birthdate,
-        community.age,
-      ]).toList();      
+        community.description,
+        community.rol,
+        community.name_sheet,
+        community.id_sheet,
+        community.export_pdf,
+        community.export_excel,
+        community.export_db,
+        // community.create_at,
+        // community.update_at,
+      ]).toList();  
+      print(rsAsList);
       setState(() {
         var rs = fetchedRows.cast<List<dynamic>>(); // Actualizar el estado con los datos
-        // Inicializar data si está nulo
-        data ??= [];
         heads = rs;
-        // Evitar duplicación de datos si se vuelve a llamar loadGsheetData
-        data!.clear();
+        data ??= [];
+        data!.clear();        
         filter = rsAsList; // Asignamos la lista procesada a `filter`
         data = rsAsList;
         isLoading = false; // Cambiar el estado de carga
@@ -344,6 +339,7 @@ class _SheetScreenState extends State<SheetScreen> {
       });
     }
   }
+
   // Método para manejar el movimiento del FAB
   void _onDragUpdate(DragUpdateDetails details) {
     setState(() {
@@ -419,6 +415,9 @@ class _SheetScreenState extends State<SheetScreen> {
                     DataColumn(label: Text(head.length > 5 ? head[5] : '')),
                     DataColumn(label: Text(head.length > 6 ? head[6] : '')),
                     DataColumn(label: Text(head.length > 7 ? head[7] : '')),
+                    DataColumn(label: Text(head.length > 8 ? head[8] : '')),
+                    // const DataColumn(label: Text('Create')),
+                    // const DataColumn(label: Text('Update')),
                     const DataColumn(label: Text('Action')),
                   ],
                   rows: filter.isNotEmpty
@@ -438,10 +437,10 @@ class _SheetScreenState extends State<SheetScreen> {
                                 return index.isEven ? Colors.white : Colors.grey.withOpacity(0.1);
                               },
                             ),
-                            cells: List<DataCell>.generate(10, (index) {
+                            cells: List<DataCell>.generate(11, (index) {
                               if (index < row.length) {
                                 return DataCell(Text(row[index].toString()));
-                              } else if (index == 9) {
+                              } else if (index == 10) {
                                 // Columna de acción
                                 return DataCell(
                                   Row(

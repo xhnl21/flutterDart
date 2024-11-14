@@ -14,6 +14,8 @@ class OptionList extends StatelessWidget {
     {'title': 'Home', 'icon': Icons.home, 'route':'/Home'},
     {'title': 'About', 'icon': Icons.account_box, 'route':'/About'},
     {'title': 'Sheet', 'icon': Icons.insert_drive_file_outlined, 'route':'/Sheet'},
+    {'title': 'Crear Sheet', 'icon': Icons.insert_drive_file_outlined, 'route':'/CreateSheet'},
+    {'title': 'History Sheet', 'icon': Icons.insert_drive_file_outlined, 'route':'/HistorySheet'},
     {'title': 'Badger', 'icon': Icons.account_box, 'route':'/Badger'},    
     {'title': 'Products', 'icon': Icons.grid_3x3_outlined, 'route':'/Products'},
     {'title': 'Layout', 'icon': Icons.contact_mail, 'route':'/Layout'},
